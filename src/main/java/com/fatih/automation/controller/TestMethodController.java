@@ -1,60 +1,69 @@
 package com.fatih.automation.controller;
 
 import com.offbytwo.jenkins.JenkinsServer;
+import com.offbytwo.jenkins.JenkinsTriggerHelper;
+import com.offbytwo.jenkins.model.QueueReference;
 import lombok.Data;
 import lombok.SneakyThrows;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.stream.Stream;
 
 @Data
 @RestController
 public class TestMethodController {
 
-    private static final String JENKINS_URL = "http://localhost:8181";
+    private static final String JENKINS_URL = "http://localhost:8080";
     private final TestMethodRepository testMethodRepository;
     private final JenkinsServer jenkinsServer;
+    private final Map<String, QueueReference> jobBuilds = new HashMap<>();
 
     @SneakyThrows
     public TestMethodController(TestMethodRepository testMethodRepository) {
         this.testMethodRepository = testMethodRepository;
-        this.jenkinsServer = new JenkinsServer(new URI(JENKINS_URL), "automation-center", "admin");
+        this.jenkinsServer = new JenkinsServer(new URI(JENKINS_URL), "admin", "admin");
     }
 
     @GetMapping("/getTestMethods")
-    public String test() {
-        StringBuilder result = new StringBuilder();
-        for (var testMethod : testMethodRepository.findAll()) {
-            result.append(testMethod.getName()).append("<br>");
-        }
-        return result.toString();
+    public List<String> test() {
+        return testMethodRepository.findAll().stream().map(TestMethod::getName).toList();
     }
 
     @SneakyThrows
     @GetMapping("/run/test/{id}")
     public String  runTest(@PathVariable Long id) {
-        var sb = new StringBuilder();
         var views = jenkinsServer.getViews();
+        var jsonObject = new JSONObject();
         for (var view : views.entrySet()) {
-            var name =  view.getValue().getName();
-            var description = view.getValue().getDescription();
-            var url = view.getValue().getUrl();
-            var jobs = view.getValue().getJobs();
-            sb
-                    .append("View Name: ").append(name).append("<br>")
-                    .append("View Description: ").append(description).append("<br>")
-                    .append("View URL: ").append(url).append("<br><br>");
-            for (var job : jobs) {
-                sb
-                        .append("Job Name: ").append(job.getName()).append("<br>")
-                        .append("Job FullName: ").append(job.getFullName()).append("<br>")
-                        .append("Job URL: ").append(job.getUrl()).append("<br><br>");
-               sb.append("queueItem: ").append(job.build(true).getQueueItemUrlPart());
-            }
-
+            var job =  view.getValue().getJobs().get(0);
+            var buildDetail = job.build(true);
+            var uuid = UUID.randomUUID();
+            jsonObject.put("build_id", uuid);
+            jsonObject.put("view_name", view.getKey());
+            jsonObject.put("job_name", job.getName());
+            jobBuilds.put(uuid.toString(), buildDetail);
         }
-        return sb.toString();
+        return jsonObject.toString();
+    }
+
+    @SneakyThrows
+    @GetMapping("/test/status/{id}")
+    public String getStatus(@PathVariable String id) {
+        var queueReference = jobBuilds.get(id);
+        if (queueReference != null) {
+            var queueItem = jenkinsServer.getQueueItem(queueReference);
+            var build = jenkinsServer.getBuild(queueItem);
+            return build.details().getResult().name();
+        }
+
+        return "null" + id;
     }
 }
