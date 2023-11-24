@@ -4,6 +4,7 @@ import com.fatih.automation.core.data.TestStatus;
 import com.fatih.automation.core.model.TestBuild;
 import com.fatih.automation.core.model.TestMethod;
 import com.offbytwo.jenkins.JenkinsServer;
+import com.offbytwo.jenkins.model.QueueReference;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class JenkinsJobController implements IJenkinsJobController {
     private static final String JENKINS_URL = "http://localhost:8081";
     private static final String JENKINS_USER = "admin";
     private static final String JENKINS_PASSWORD = "admin";
-    private static final Map<UUID, TestBuild> JOB_BUILDS = new HashMap<>();
+    private static final Map<UUID, QueueReference> JOB_BUILDS = new HashMap<>();
     private final JenkinsServer JENKINS_SERVER = new JenkinsServer(new URI(JENKINS_URL), JENKINS_USER, JENKINS_PASSWORD);
 
 
@@ -28,19 +29,24 @@ public class JenkinsJobController implements IJenkinsJobController {
 
     @SneakyThrows
     @Override
-    public TestBuild runTest(long id) {
-        JENKINS_SERVER.getJob(JOB_NAME).build(true);
-        return null;
+    public void runTest(long id) {
+        var queueRef = JENKINS_SERVER.getJob(JOB_NAME).build(true);
+        var uuid = UUID.randomUUID();
+        JOB_BUILDS.put(uuid, queueRef);
     }
 
     @Override
     public TestBuild runTest(TestMethod testMethod) {
-        JENKINS_SERVER.getJob(JOB_NAME).build(true);
+//        JENKINS_SERVER.getJob(JOB_NAME).build(true);
         return null;
     }
 
     @Override
-    public TestStatus getStatus(TestBuild testBuild) {
+    @SneakyThrows
+    public TestStatus getStatus(UUID uuid) {
+        var job = JENKINS_SERVER.getJob(JOB_NAME);
+        var lastBuild = job.getLastBuild();
+        lastBuild.details().getResult();
         return null;
     }
 }
