@@ -108,7 +108,7 @@ public class Main {
 //                .forEach(clazz -> System.out.println("Class: " + clazz.getName()));
     }
 
-    @SneakyThrows
+//    @SneakyThrows
     public static void compileProject(File root) {
         // Load and instantiate compiled class.
 //        var clazz = classLoader.loadClass("com.hangikredi.api.services.BaseService");
