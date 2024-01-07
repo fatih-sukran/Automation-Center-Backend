@@ -3,7 +3,7 @@ package com.fatih.automation.controller;
 import com.offbytwo.jenkins.JenkinsServer;
 import com.offbytwo.jenkins.model.QueueReference;
 import lombok.SneakyThrows;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
+import net.sf.json.JSONObject;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
