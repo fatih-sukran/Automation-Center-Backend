@@ -1,9 +1,7 @@
 package com.fatih.automation.controller;
 
 import com.offbytwo.jenkins.JenkinsServer;
-import com.offbytwo.jenkins.JenkinsTriggerHelper;
 import com.offbytwo.jenkins.model.QueueReference;
-import lombok.Data;
 import lombok.SneakyThrows;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,9 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Stream;
 
-@Data
 @RestController
 public class TestMethodController {
 

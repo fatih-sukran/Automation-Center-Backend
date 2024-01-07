@@ -46,7 +46,6 @@ public class JenkinsJobController implements IJenkinsJobController {
     public TestStatus getStatus(UUID uuid) {
         var job = JENKINS_SERVER.getJob(JOB_NAME);
         var lastBuild = job.getLastBuild();
-        lastBuild.details().getResult();
-        return null;
+        return TestStatus.fromJenkinsBuild(lastBuild.details());
     }
 }

@@ -15,6 +15,7 @@ public enum TestStatus {
             return RUNNING;
         }
 
-        build.getTestResult()
+        build.getTestResult();
+        return null;
     }
 }
