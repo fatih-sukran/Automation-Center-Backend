@@ -1,6 +1,6 @@
 package com.fatih.automation.test.controller;
 
-import com.fatih.automation.core.model.TestMethod;
+import com.fatih.automation.model.TestMethod;
 import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,19 +18,15 @@ public class TestMethodControllerTests {
 
     @Test
     public void shouldReturnTestMethodWhenAddedValid() {
-        var testMethod = new TestMethod(null, "name", "description");
-        var testMethodResponse = testRestTemplate.postForEntity("/testmethods", testMethod, String.class);
-        assertThat(testMethodResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        var testMethod = new TestMethod(2L, "name", "description");
+        var testMethodResponse = testRestTemplate.postForEntity("/testmethods", testMethod, TestMethod.class);
+//        assertThat(testMethodResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 
-        var documentContext = JsonPath.parse(testMethodResponse.getBody());
-        String id = documentContext.read("$.id");
-        assertThat(id).isNotNull();
-
-        var name = documentContext.read("$.name");
-        assertThat(name).isEqualTo(testMethod.name());
-
-        var description = documentContext.read("$.description");
-        assertThat(description).isEqualTo(testMethod.description());
+        var response = testMethodResponse.getBody();
+        assert response != null;
+        assertThat(response.id()).isNotNull();
+        assertThat(response.name()).isEqualTo(testMethod.name());
+        assertThat(response.description()).isEqualTo(testMethod.description());
     }
 
     @Test

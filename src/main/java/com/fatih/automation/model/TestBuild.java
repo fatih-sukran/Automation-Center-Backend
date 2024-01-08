@@ -1,4 +1,4 @@
-package com.fatih.automation.core.model;
+package com.fatih.automation.model;
 
 import java.util.Map;
 import java.util.UUID;

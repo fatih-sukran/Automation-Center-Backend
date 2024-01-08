@@ -1,4 +1,4 @@
-package com.fatih.automation.core.data;
+package com.fatih.automation.data;
 
 import com.offbytwo.jenkins.model.Build;
 import lombok.SneakyThrows;
