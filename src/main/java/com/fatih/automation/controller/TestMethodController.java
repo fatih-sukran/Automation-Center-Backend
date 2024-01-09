@@ -1,28 +1,37 @@
 package com.fatih.automation.controller;
 
-import com.offbytwo.jenkins.JenkinsServer;
-import com.offbytwo.jenkins.model.QueueReference;
-import lombok.SneakyThrows;
-import net.sf.json.JSONObject;
+import com.fatih.automation.model.TestMethod;
+import com.fatih.automation.services.TestMethodService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.*;
 
 @RestController
-@RequestMapping("/testmethods")
+@RequestMapping("/testmethod")
+@RequiredArgsConstructor
 public class TestMethodController {
 
-
-
-    @GetMapping
-    public List<TestMethod> getAll() {
-        return List.of();
+    private final TestMethodService service;
+    @PostMapping
+    public TestMethod save(@RequestBody TestMethod testMethod) {
+        return service.save(testMethod);
     }
 
-    @PostMapping
-    public ResponseEntity<TestMethod> add(@RequestBody TestMethod testMethod) {
-        return ResponseEntity.of(Optional.of(testMethod));
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<TestMethod>> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(service.findById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<TestMethod>> findAll() {
+        return ResponseEntity.ok(service.findAll());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 }
