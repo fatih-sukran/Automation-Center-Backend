@@ -1,15 +1,13 @@
 package com.fatih.automation.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 @Data
 @Entity
 @Table(name = "test_methods")
-@NoArgsConstructor
-@AllArgsConstructor
+@Accessors(chain = true, fluent = true)
 public class TestMethod {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
