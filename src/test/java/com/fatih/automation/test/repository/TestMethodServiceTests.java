@@ -1,7 +1,7 @@
 package com.fatih.automation.test.repository;
 
-import com.fatih.automation.repositories.TestMethodRepository;
 import com.fatih.automation.model.TestMethod;
+import com.fatih.automation.repositories.TestMethodRepository;
 import com.fatih.automation.services.TestMethodService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,9 @@ public class TestMethodServiceTests {
 
     @Test
     public void shouldSaveTestMethod() {
-        var testMethod = new TestMethod(null, "name", "description");
+        var testMethod = new TestMethod()
+                .name("name")
+                .description("description");
 
         Mockito.when(testMethodRepository.save(testMethod)).thenReturn(testMethod);
 
@@ -45,8 +47,14 @@ public class TestMethodServiceTests {
 
     @Test
     public void shouldGetAllTestMethods() {
-        var testMethod1 = new TestMethod(1L, "name1", "description1");
-        var testMethod2 = new TestMethod(2L, "name2", "description2");
+        var testMethod1 = new TestMethod()
+                .id(1L)
+                .name("name1")
+                .description("description1");
+        var testMethod2 = new TestMethod()
+                .id(2L)
+                .name("name2")
+                .description("description2");
         var testMethods = List.of(testMethod1, testMethod2);
         Mockito.when(testMethodRepository.findAll()).thenReturn(testMethods);
 
@@ -58,7 +66,10 @@ public class TestMethodServiceTests {
 
     @Test
     public void shouldGetTestMethodById() {
-        var testMethod = new TestMethod(1L, "name", "description");
+        var testMethod = new TestMethod()
+                .id(1L)
+                .name("name")
+                .description("description");
         Mockito.when(testMethodRepository.findById(1L)).thenReturn(Optional.of(testMethod));
 
         var testMethodResponse = testMethodService.findById(1L);
@@ -70,7 +81,10 @@ public class TestMethodServiceTests {
 
     @Test
     public void shouldReturnOptionalEmptyWhenTestMethodNotFound() {
-        var testMethod = new TestMethod(-1L, "name", "description");
+        var testMethod = new TestMethod()
+                .id(1L)
+                .name("name")
+                .description("description");
         Mockito.when(testMethodRepository.findById(-1L)).thenReturn(Optional.empty());
 
         var actualTestMethod = testMethodService.findById(-1L);
@@ -81,11 +95,13 @@ public class TestMethodServiceTests {
 
     @Test
     public void shouldThrowErrorWhenIdNull() {
-        var testMethod = new TestMethod(null, "name", "description");
-        Mockito.when(testMethodRepository.findById(null)).thenThrow(IllegalArgumentException.class);
+        var testMethod = new TestMethod()
+                .name("name")
+                .description("description");
+        Mockito.when(testMethodRepository.findById(testMethod.id())).thenThrow(IllegalArgumentException.class);
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> testMethodService.findById(null));
 
-        Mockito.verify(testMethodRepository).findById(null);
+        Mockito.verify(testMethodRepository).findById(testMethod.id());
     }
 }
