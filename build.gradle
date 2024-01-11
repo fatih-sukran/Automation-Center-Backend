@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.1'
     id 'io.spring.dependency-management' version '1.1.4'
-    id 'org.jetbrains.kotlin.jvm' version '2.0.0-Beta2'
+//    id 'org.jetbrains.kotlin.jvm' version '2.0.0-Beta2'
 }
 
 group = 'com.fatih.automation'
@@ -23,6 +23,7 @@ dependencies {
 
     // db dependencies
     implementation 'org.springframework.data:spring-data-jdbc'
+    implementation 'org.postgresql:postgresql:42.7.1'
     testImplementation 'com.h2database:h2'
 
     // security
@@ -46,7 +47,7 @@ dependencies {
 
     // JetBrains annotations
     implementation 'org.jetbrains:annotations:24.1.0'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
 }
 
@@ -65,7 +66,4 @@ test {
 
         showStandardStreams = true
     }
-}
-kotlin {
-    jvmToolchain(17)
 }
