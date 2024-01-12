@@ -1,9 +1,8 @@
 package com.fatih.automation;
 
+import com.fatih.automation.model.TestClass;
 import com.fatih.automation.model.TestMethod;
 import com.github.javaparser.StaticJavaParser;
-import com.github.javaparser.ast.body.FieldDeclaration;
-import com.github.javaparser.ast.body.MethodDeclaration;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,57 +12,74 @@ import java.util.List;
 
 public class Main {
 
+    public static List<TestMethod> findTestMethods(String absolutePath) {
+        var file = new File(absolutePath);
+        return findTestMethods(file);
+    }
+
     @SneakyThrows
-    public static List<TestMethod> javaParser(@NotNull File file) {
+    public static List<TestMethod> findTestMethods(@NotNull File file) {
         var compilationUnit = StaticJavaParser.parse(file);
-        var methods = new ArrayList<TestMethod>();
-        // Extract class information
         var classDeclaration = compilationUnit.getTypes().get(0);
-        if (classDeclaration != null) {
-            System.out.println("Class Name: " + classDeclaration.getName());
+        if (classDeclaration == null) {
+            return List.of();
+        }
 
-            // Extract field information
-            for (FieldDeclaration field : classDeclaration.getFields()) {
-                System.out.println("Field: " + field.getVariable(0).getNameAsString());
-            }
-
-            // Extract method information
-            for (MethodDeclaration method : classDeclaration.getMethods()) {
-                System.out.println("Method: " + method.getName());
-
-                var annotation = method.getAnnotationByName("Test");
-                System.out.println("Method is Test: " + annotation.isPresent());
-                if (annotation.isPresent()) {
-                    var testMethod = new TestMethod();
-                    testMethod.name(method.getName().asString());
-                    testMethod.className(classDeclaration.getName().asString());
-                    methods.add(testMethod);
-                }
+        var methods = new ArrayList<TestMethod>();
+        for (var method : classDeclaration.getMethods()) {
+            var annotation = method.getAnnotationByName("Test");
+            if (annotation.isPresent()) {
+                var testMethod = new TestMethod()
+                        .setName(method.getName().asString());
+                methods.add(testMethod);
             }
         }
+
         return methods;
     }
 
-    public static List<TestMethod> printPaths(File file) {
-        return printPaths(file, 0);
+    public static List<TestClass> findTestClasses(File file) {
+        return findTestClasses(file, 0);
     }
 
     @SneakyThrows
-    public static List<TestMethod> printPaths(@NotNull File file, int depth) {
-        var methods = new ArrayList<TestMethod>();
+    private static List<TestClass> findTestClasses(@NotNull File file, int depth) {
+        var classes = new ArrayList<TestClass>();
         for (File f : file.listFiles()) {
-            if (f.isFile() && !f.getName().endsWith(".java")) {
+            if (f.isFile() && !isJavaFile(f)) {
                 continue;
             }
-            System.out.println("  ".repeat(depth) + f.getName());
             if (f.isDirectory()) {
-                methods.addAll(printPaths(f, depth + 1));
-            } else {
-                System.out.println("-------------------");
-                System.out.println("file: " + f.getAbsolutePath());
-                methods.addAll(javaParser(f));
+                classes.addAll(findTestClasses(f, depth + 1));
+            } else if (isTestClass(f)) {
+                var testClass = new TestClass()
+                        .setName(f.getName())
+                        .setPath(f.getAbsolutePath());
+                classes.add(testClass);
             }
         }
-        return methods;
+        return classes;
+    }
+
+    public static boolean isJavaFile(File file) {
+        return file.getName().endsWith(".java");
+    }
+
+    @SneakyThrows
+    public static boolean isTestClass(File file) {
+        var compilationUnit = StaticJavaParser.parse(file);
+        var classDeclaration = compilationUnit.getTypes().get(0);
+
+        if (classDeclaration == null) {
+            return false;
+        }
+
+        for (var method : classDeclaration.getMethods()) {
+            var annotation = method.getAnnotationByName("Test");
+            if (annotation.isPresent()) {
+                return true;
+            }
+        }
+        return false;
     }
 }
