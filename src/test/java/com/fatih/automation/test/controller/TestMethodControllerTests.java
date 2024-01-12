@@ -19,17 +19,17 @@ public class TestMethodControllerTests {
     @Test
     public void shouldReturnTestMethodWhenAddedValid() {
         var testMethod = new TestMethod()
-                .id(1L)
-                .name("name")
-                .description("description");
+                .setId(1L)
+                .setName("name")
+                .setDescription("description");
         var testMethodResponse = testRestTemplate.postForEntity("/testmethods", testMethod, TestMethod.class);
 //        assertThat(testMethodResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 
         var response = testMethodResponse.getBody();
         assert response != null;
-        assertThat(response.id()).isNotNull();
-        assertThat(response.name()).isEqualTo(testMethod.name());
-        assertThat(response.description()).isEqualTo(testMethod.description());
+        assertThat(response.getId()).isNotNull();
+        assertThat(response.getName()).isEqualTo(testMethod.getName());
+        assertThat(response.getDescription()).isEqualTo(testMethod.getDescription());
     }
 
     @Test
