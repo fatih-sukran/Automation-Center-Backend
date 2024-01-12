@@ -4,6 +4,5 @@ import com.fatih.automation.model.TestMethod;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TestMethodRepository extends JpaRepository<TestMethod, Long> {
-
-    boolean existsByNameAndClassName(String name, String className);
+    boolean existsByNameAndTestClassId(String name, Long testClassId);
 }
