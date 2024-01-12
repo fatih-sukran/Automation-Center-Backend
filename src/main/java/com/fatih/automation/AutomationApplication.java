@@ -1,5 +1,6 @@
 package com.fatih.automation;
 
+import com.fatih.automation.repositories.TestClassRepository;
 import com.fatih.automation.repositories.TestMethodRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -17,17 +18,38 @@ public class AutomationApplication {
 	}
 
 	@Bean
-	CommandLineRunner init(TestMethodRepository repository) {
+	CommandLineRunner init(TestClassRepository testClassRepository,
+						   TestMethodRepository testMethodRepository) {
 		return args -> {
-			var PATH = "/Users/fatih.sukran/Downloads/api/src/test";
-			var file = new File(PATH);
-			var methods = Main.printPaths(file);
-
-			methods.forEach(testMethod -> {
-				if (!repository.existsByNameAndClassName(testMethod.name(), testMethod.className())) {
-					repository.save(testMethod);
-				}
-			});
+			initTestClasses(testClassRepository);
+			initTestMethods(testClassRepository, testMethodRepository);
 		};
+	}
+
+	private void initTestClasses(TestClassRepository testClassRepository) {
+		var PATH = "/Users/fatih.sukran/Downloads/api/src/test";
+		var file = new File(PATH);
+		var classes = Main.findTestClasses(file);
+
+		classes.forEach(testClass -> {
+			if (!testClassRepository.existsByPath(testClass.getPath())) {
+				testClassRepository.save(testClass);
+			}
+		});
+	}
+
+	private void initTestMethods(TestClassRepository testClassRepository,
+								 TestMethodRepository testMethodRepository) {
+		var testClasses = testClassRepository.findAll();
+
+		for (var testClass : testClasses) {
+			var testMethods = Main.findTestMethods(testClass.getPath());
+			for (var testMethod : testMethods) {
+				if (!testMethodRepository.existsByNameAndTestClassId(testMethod.getName(), testClass.getId())) {
+					testMethod.setTestClass(testClass);
+					testMethodRepository.save(testMethod);
+				}
+			}
+		}
 	}
 }
