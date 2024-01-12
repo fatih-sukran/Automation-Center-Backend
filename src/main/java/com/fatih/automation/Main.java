@@ -4,14 +4,12 @@ import com.fatih.automation.model.TestMethod;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.expr.AnnotationExpr;
-import lombok.Data;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
-import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
@@ -37,8 +35,8 @@ public class Main {
                 System.out.println("Method is Test: " + annotation.isPresent());
                 if (annotation.isPresent()) {
                     var testMethod = new TestMethod();
-                    testMethod.setName(method.getName().asString());
-                    testMethod.setClassName(classDeclaration.getName().asString());
+                    testMethod.name(method.getName().asString());
+                    testMethod.className(classDeclaration.getName().asString());
                     methods.add(testMethod);
                 }
             }
