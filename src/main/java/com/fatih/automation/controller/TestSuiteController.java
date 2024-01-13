@@ -36,4 +36,9 @@ public class TestSuiteController {
         service.deleteById(id);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/{id}/testmethod")
+    public TestSuite addTestMethod(@PathVariable Long id, @RequestBody List<Long> testMethodIds) {
+        return service.addTestMethod(id, testMethodIds);
+    }
 }

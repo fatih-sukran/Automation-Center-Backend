@@ -2,6 +2,7 @@ package com.fatih.automation.services;
 
 import com.fatih.automation.core.BaseCrud;
 import com.fatih.automation.model.TestSuite;
+import com.fatih.automation.repositories.TestMethodRepository;
 import com.fatih.automation.repositories.TestSuiteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.util.Optional;
 public class TestSuiteService implements BaseCrud<TestSuite, Long> {
 
     private final TestSuiteRepository repository;
+    private final TestMethodRepository testMethodRepository;
 
     @Override
     public TestSuite save(TestSuite testSuite) {
@@ -38,5 +40,17 @@ public class TestSuiteService implements BaseCrud<TestSuite, Long> {
     @Override
     public void deleteById(Long id) {
         repository.deleteById(id);
+    }
+
+    public TestSuite addTestMethod(Long testSuiteId, List<Long> testMethodIds) {
+        var testSuite = repository
+                .findById(testSuiteId)
+                .orElseThrow(() -> new RuntimeException("Test Suite not found with id: " + testSuiteId));
+        var testMethods = testMethodRepository.findAllById(testMethodIds);
+
+        testMethods.stream()
+                .filter(testMethod -> !testSuite.getTestMethods().contains(testMethod))
+                .forEach(testMethod -> testSuite.getTestMethods().add(testMethod));
+        return repository.save(testSuite);
     }
 }
