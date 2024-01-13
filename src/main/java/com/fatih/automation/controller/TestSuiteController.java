@@ -39,6 +39,11 @@ public class TestSuiteController {
 
     @PostMapping("/{id}/testmethod")
     public TestSuite addTestMethod(@PathVariable Long id, @RequestBody List<Long> testMethodIds) {
-        return service.addTestMethod(id, testMethodIds);
+        return service.addTestMethods(id, testMethodIds);
+    }
+
+    @PostMapping("/{id}/testclass")
+    public TestSuite addTestClasses(@PathVariable Long id, @RequestBody List<Long> testClassIds) {
+        return service.addTestClasses(id, testClassIds);
     }
 }

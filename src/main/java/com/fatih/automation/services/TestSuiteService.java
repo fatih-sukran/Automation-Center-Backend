@@ -2,6 +2,7 @@ package com.fatih.automation.services;
 
 import com.fatih.automation.core.BaseCrud;
 import com.fatih.automation.model.TestSuite;
+import com.fatih.automation.repositories.TestClassRepository;
 import com.fatih.automation.repositories.TestMethodRepository;
 import com.fatih.automation.repositories.TestSuiteRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ public class TestSuiteService implements BaseCrud<TestSuite, Long> {
 
     private final TestSuiteRepository repository;
     private final TestMethodRepository testMethodRepository;
+    private final TestClassRepository testClassRepository;
 
     @Override
     public TestSuite save(TestSuite testSuite) {
@@ -42,7 +44,7 @@ public class TestSuiteService implements BaseCrud<TestSuite, Long> {
         repository.deleteById(id);
     }
 
-    public TestSuite addTestMethod(Long testSuiteId, List<Long> testMethodIds) {
+    public TestSuite addTestMethods(Long testSuiteId, List<Long> testMethodIds) {
         var testSuite = repository
                 .findById(testSuiteId)
                 .orElseThrow(() -> new RuntimeException("Test Suite not found with id: " + testSuiteId));
@@ -51,6 +53,18 @@ public class TestSuiteService implements BaseCrud<TestSuite, Long> {
         testMethods.stream()
                 .filter(testMethod -> !testSuite.getTestMethods().contains(testMethod))
                 .forEach(testMethod -> testSuite.getTestMethods().add(testMethod));
+        return repository.save(testSuite);
+    }
+
+    public TestSuite addTestClasses(Long testSuiteId, List<Long> testClassIds) {
+        var testSuite = repository
+                .findById(testSuiteId)
+                .orElseThrow(() -> new RuntimeException("Test Suite not found with id: " + testSuiteId));
+        var testClasses = testClassRepository.findAllById(testClassIds);
+
+        testClasses.stream()
+                .filter(testClass -> !testSuite.getTestClasses().contains(testClass))
+                .forEach(testClass -> testSuite.getTestClasses().add(testClass));
         return repository.save(testSuite);
     }
 }
