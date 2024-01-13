@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/testclass")
+@RequestMapping("/api/v1/testclass")
 @RequiredArgsConstructor
 public class TestClassController {
     private final TestClassService service;

@@ -11,7 +11,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/testsuite")
+@RequestMapping("/api/v1/testsuite")
 @RequiredArgsConstructor
 public class TestSuiteController {
     private final TestSuiteService service;
