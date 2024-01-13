@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.util.List;
+
 @Data
 @Entity
 @Table(name = "test_method")
@@ -20,4 +22,8 @@ public class TestMethod {
         @ManyToOne
         @JoinColumn(name = "test_class_id")
         private TestClass testClass;
+
+        @JsonIgnore
+        @ManyToMany(mappedBy = "testMethods")
+        List<TestSuite> testSuites;
 }

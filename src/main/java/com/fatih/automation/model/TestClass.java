@@ -18,7 +18,10 @@ public class TestClass {
     private String name;
     private String path;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "testClass")
     private List<TestMethod> testMethods;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "testClasses")
+    private List<TestSuite> testSuites;
 }
