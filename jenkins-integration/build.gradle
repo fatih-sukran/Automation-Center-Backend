@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group = 'io.fatih.automation-center'
+group = 'com.fatih.automation'
 version = '0.0.1-SNAPSHOT'
 
 repositories {
