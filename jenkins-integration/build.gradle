@@ -10,8 +10,16 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.jetbrains:annotations:24.0.0'
+    implementation 'org.projectlombok:lombok:1.18.28'
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    // Jenkins
+    implementation 'com.offbytwo.jenkins:jenkins-client:0.3.8'
+
+    // java parser
+    implementation 'com.github.javaparser:javaparser-core:3.25.6'
 }
 
 test {
