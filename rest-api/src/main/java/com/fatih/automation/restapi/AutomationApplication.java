@@ -1,5 +1,7 @@
 package com.fatih.automation.restapi;
 
+import com.fatih.automation.common.model.TestClass;
+import com.fatih.automation.jenkins.Main;
 import com.fatih.automation.restapi.repositories.TestClassRepository;
 import com.fatih.automation.restapi.repositories.TestMethodRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -31,8 +33,12 @@ public class AutomationApplication {
 		var file = new File(PATH);
 		var classes = Main.findTestClasses(file);
 
-		classes.forEach(testClass -> {
-			if (!testClassRepository.existsByPath(testClass.getPath())) {
+		classes.forEach(clazz -> {
+			if (!testClassRepository.existsByPath(clazz.getPath())) {
+				var testClass = new TestClass()
+						.setName(clazz.getName())
+						.setPath(clazz.getPath());
+				// TODO: add test methods
 				testClassRepository.save(testClass);
 			}
 		});
@@ -43,11 +49,11 @@ public class AutomationApplication {
 		var testClasses = testClassRepository.findAll();
 
 		for (var testClass : testClasses) {
-			var testMethods = Main.findTestMethods(testClass.getPath());
-			for (var testMethod : testMethods) {
-				if (!testMethodRepository.existsByNameAndTestClassId(testMethod.getName(), testClass.getId())) {
-					testMethod.setTestClass(testClass);
-					testMethodRepository.save(testMethod);
+			var methods = Main.findTestMethods(testClass.getPath());
+			for (var method : methods) {
+				if (!testMethodRepository.existsByNameAndTestClassId(method.getName(), testClass.getId())) {
+//					var testMethod = new TestM
+//					testMethodRepository.save(method);
 				}
 			}
 		}

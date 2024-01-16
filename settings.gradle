@@ -4,4 +4,5 @@ plugins {
 rootProject.name = 'automationcenter'
 include 'jenkins-integration'
 include 'rest-api'
+include 'commons'
 

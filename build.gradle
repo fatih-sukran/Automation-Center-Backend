@@ -2,7 +2,6 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.1'
     id 'io.spring.dependency-management' version '1.1.4'
-//    id 'org.jetbrains.kotlin.jvm' version '2.0.0-Beta2'
 }
 
 group = 'com.fatih.automation'
@@ -15,19 +14,26 @@ repositories {
     mavenCentral()
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
-}
+subprojects {
+    apply(pl)
+    dependencyManagement {
+        dependencies {
+            // test
+            dependen platform('org.junit:junit-bom:5.9.1')
+            testImplementation 'org.junit.jupiter:junit-jupiter'
+//
+            spring
+            implementation 'org.springframework.boot:spring-boot-starter-web'
+            implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.2.1'
+            implementation 'org.springframework.boot:spring-boot-starter-test'
 
-test {
-    testLogging {
-        events "passed", "skipped", "failed" //, "standardOut", "standardError"
+//            lombok
+            compileOnly 'org.projectlombok:lombok:1.18.28'
+            annotationProcessor 'org.projectlombok:lombok:1.18.20'
 
-        showExceptions true
-//		exceptionFormat "full"
-        showCauses true
-        showStackTraces true
-
-        showStandardStreams = true
+//             JetBrains annotations
+            implementation 'org.jetbrains:annotations:24.1.0'
+        }
     }
 }
+

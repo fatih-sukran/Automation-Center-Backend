@@ -1,7 +1,6 @@
-package com.fatih.automation.restapi.model;
+package com.fatih.automation.common.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -25,5 +24,5 @@ public class TestMethod {
 
         @JsonIgnore
         @ManyToMany(mappedBy = "testMethods")
-        List<TestSuite> testSuites;
+        private List<TestSuite> testSuites;
 }

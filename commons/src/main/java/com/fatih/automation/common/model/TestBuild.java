@@ -1,4 +1,4 @@
-package com.fatih.automation.restapi.model;
+package com.fatih.automation.common.model;
 
 import java.util.Map;
 import java.util.UUID;

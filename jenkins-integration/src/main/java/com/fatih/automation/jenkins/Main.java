@@ -1,10 +1,11 @@
-package com.fatih.automation.restapi;
+package com.fatih.automation.jenkins;
 
-import com.fatih.automation.restapi.model.TestClass;
-import com.fatih.automation.restapi.model.TestMethod;
+import com.fatih.automation.common.model.TestClass;
+import com.fatih.automation.common.model.TestMethod;
 import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.body.TypeDeclaration;
+import com.github.javaparser.quality.NotNull;
 import lombok.SneakyThrows;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -52,6 +53,7 @@ public class Main {
             if (f.isDirectory()) {
                 classes.addAll(findTestClasses(f, depth + 1));
             } else if (isTestClass(f)) {
+                var testMethods = findTestMethods(f);
                 var testClass = new TestClass()
                         .setName(f.getName())
                         .setPath(f.getAbsolutePath());
@@ -70,16 +72,21 @@ public class Main {
         var compilationUnit = StaticJavaParser.parse(file);
         var classDeclaration = compilationUnit.getTypes().get(0);
 
-        if (classDeclaration == null) {
+        return isTestClass(classDeclaration);
+    }
+
+    public static boolean isTestClass(TypeDeclaration<?> typeDeclaration) {
+        if (typeDeclaration == null) {
             return false;
         }
 
-        for (var method : classDeclaration.getMethods()) {
+        for (var method : typeDeclaration.getMethods()) {
             var annotation = method.getAnnotationByName("Test");
             if (annotation.isPresent()) {
                 return true;
             }
         }
+
         return false;
     }
 }
