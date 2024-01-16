@@ -1,5 +1,6 @@
 package com.fatih.automation.common.model;
 
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
