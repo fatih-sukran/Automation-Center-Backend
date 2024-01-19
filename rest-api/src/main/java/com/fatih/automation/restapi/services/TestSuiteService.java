@@ -1,7 +1,7 @@
 package com.fatih.automation.restapi.services;
 
+import com.fatih.automation.common.model.TestSuite;
 import com.fatih.automation.restapi.core.BaseCrud;
-import com.fatih.automation.restapi.model.TestSuite;
 import com.fatih.automation.restapi.repositories.TestClassRepository;
 import com.fatih.automation.restapi.repositories.TestMethodRepository;
 import com.fatih.automation.restapi.repositories.TestSuiteRepository;

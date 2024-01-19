@@ -1,7 +1,7 @@
 package com.fatih.automation.restapi.services;
 
+import com.fatih.automation.common.model.TestClass;
 import com.fatih.automation.restapi.core.BaseCrud;
-import com.fatih.automation.restapi.model.TestClass;
 import com.fatih.automation.restapi.repositories.TestClassRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

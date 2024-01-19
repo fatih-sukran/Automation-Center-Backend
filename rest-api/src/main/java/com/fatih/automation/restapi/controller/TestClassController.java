@@ -1,6 +1,6 @@
 package com.fatih.automation.restapi.controller;
 
-import com.fatih.automation.restapi.model.TestClass;
+import com.fatih.automation.common.model.TestClass;
 import com.fatih.automation.restapi.services.TestClassService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

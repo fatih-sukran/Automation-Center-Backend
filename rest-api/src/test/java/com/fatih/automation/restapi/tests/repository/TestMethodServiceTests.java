@@ -1,6 +1,6 @@
 package com.fatih.automation.restapi.tests.repository;
 
-import com.fatih.automation.restapi.model.TestMethod;
+import com.fatih.automation.common.model.TestMethod;
 import com.fatih.automation.restapi.repositories.TestMethodRepository;
 import com.fatih.automation.restapi.services.TestMethodService;
 import org.junit.jupiter.api.Assertions;

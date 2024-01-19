@@ -1,6 +1,6 @@
 package com.fatih.automation.restapi.tests.controller;
 
-import com.fatih.automation.restapi.model.TestMethod;
+import com.fatih.automation.common.model.TestMethod;
 import com.jayway.jsonpath.JsonPath;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
