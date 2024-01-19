@@ -20,6 +20,7 @@ public class Main {
 
     @SneakyThrows
     public static List<TestMethod> findTestMethods(@NotNull File file) {
+        checkFileExists(file);
         var compilationUnit = StaticJavaParser.parse(file);
         var classDeclaration = compilationUnit.getTypes().get(0);
         if (classDeclaration == null) {
