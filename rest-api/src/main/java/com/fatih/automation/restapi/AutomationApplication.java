@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Bean;
 import java.io.File;
 import java.util.stream.Collectors;
 
-@EntityScan(basePackages = {"com.fatih.automation.common.model", "com.fatih.automation.restapi"})
+@EntityScan(basePackages = {"com.fatih.automation"})
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 public class AutomationApplication {
 
