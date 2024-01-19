@@ -18,7 +18,7 @@ public class TestClass {
     private String name;
     private String path;
 
-    @OneToMany(mappedBy = "testClass")
+    @OneToMany(mappedBy = "testClass", fetch = FetchType.EAGER)
     private List<TestMethod> testMethods;
 
     @JsonIgnore
