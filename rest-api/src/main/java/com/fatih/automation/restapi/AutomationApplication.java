@@ -7,11 +7,13 @@ import com.fatih.automation.restapi.repositories.TestMethodRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 
 import java.io.File;
 
+@EntityScan(basePackages = {"com.fatih.automation.common.model", "com.fatih.automation.restapi"})
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 public class AutomationApplication {
 
