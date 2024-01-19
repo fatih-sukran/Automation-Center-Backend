@@ -31,7 +31,7 @@ public class AutomationApplication {
 	}
 
 	private void initTestClasses(TestClassRepository testClassRepository) {
-		var PATH = "/Users/fatih.sukran/Downloads/api/src/test";
+		var PATH = "/Users/fatih.sukran/Downloads/api/core/src/test";
 		var file = new File(PATH);
 		var classes = Main.findTestClasses(file);
 

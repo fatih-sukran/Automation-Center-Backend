@@ -39,21 +39,30 @@ public class Main {
         return methods;
     }
 
-    public static List<TestClass> findTestClasses(File file) {
-        return findTestClasses(file, 0);
-    }
-
+    /**
+     * find all test classes in the given directory
+     *
+     * @param file is a directory that contains test classes
+     * @return list of test classes
+     */
     @SneakyThrows
-    private static List<TestClass> findTestClasses(@NotNull File file, int depth) {
+    public static List<TestClass> findTestClasses(@NotNull File file) {
+        checkFileExists(file);
+        // classes store all test classes
         var classes = new ArrayList<TestClass>();
+
+        // find all test classes in the given directory
         for (File f : file.listFiles()) {
+            // skip non-java files
             if (f.isFile() && !isJavaFile(f)) {
                 continue;
             }
+            // if file is a directory, search for test classes in that directory
+            // else if file is a test class, add it to the list
             if (f.isDirectory()) {
-                classes.addAll(findTestClasses(f, depth + 1));
+                classes.addAll(findTestClasses(f));
             } else if (isTestClass(f)) {
-                var testMethods = findTestMethods(f);
+                // add test class
                 var testClass = new TestClass()
                         .setName(f.getName())
                         .setPath(f.getAbsolutePath());
@@ -63,10 +72,20 @@ public class Main {
         return classes;
     }
 
+    /**
+     * checks if the given file is a java file
+     * @param file is a file that we want to check
+     * @return true if the file is a java file, false otherwise
+     */
     public static boolean isJavaFile(File file) {
         return file.getName().endsWith(".java");
     }
 
+    /**
+     * checks if the given file is a test class
+     * @param file is a file that we want to check
+     * @return true if the file is a test class, false otherwise
+     */
     @SneakyThrows
     public static boolean isTestClass(File file) {
         var compilationUnit = StaticJavaParser.parse(file);
@@ -75,6 +94,23 @@ public class Main {
         return isTestClass(classDeclaration);
     }
 
+    /**
+     * checks if the given file exists
+     *
+     * @param file is a file that we want to check
+     * @throws RuntimeException if the file does not exist
+     */
+    public static void checkFileExists(File file) {
+        if (!file.exists()) {
+            throw new RuntimeException("File does not exist: " + file.getAbsolutePath());
+        }
+    }
+
+    /**
+     * checks if the given type declaration is a test class
+     * @param typeDeclaration is a type declaration that we want to check
+     * @return true if the type declaration is a test class, false otherwise
+     */
     public static boolean isTestClass(TypeDeclaration<?> typeDeclaration) {
         if (typeDeclaration == null) {
             return false;
