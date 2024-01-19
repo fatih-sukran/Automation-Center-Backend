@@ -1,6 +1,6 @@
 package com.fatih.automation.restapi;
 
-import com.fatih.automation.common.model.TestClass;
+import com.fatih.automation.common.model.TestMethod;
 import com.fatih.automation.jenkins.Main;
 import com.fatih.automation.restapi.repositories.TestClassRepository;
 import com.fatih.automation.restapi.repositories.TestMethodRepository;
@@ -12,52 +12,66 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.context.annotation.Bean;
 
 import java.io.File;
+import java.util.stream.Collectors;
 
 @EntityScan(basePackages = {"com.fatih.automation.common.model", "com.fatih.automation.restapi"})
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 public class AutomationApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(AutomationApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(AutomationApplication.class, args);
+    }
 
-	@Bean
-	CommandLineRunner init(TestClassRepository testClassRepository,
-						   TestMethodRepository testMethodRepository) {
-		return args -> {
-			initTestClasses(testClassRepository);
-			initTestMethods(testClassRepository, testMethodRepository);
-		};
-	}
+    /**
+     * initialize test classes and test methods from given path
+     */
+    @Bean
+    CommandLineRunner init(TestClassRepository testClassRepository,
+                           TestMethodRepository testMethodRepository) {
+        return args -> {
+            initTestClasses(testClassRepository);
+            initTestMethods(testClassRepository, testMethodRepository);
+        };
+    }
 
-	private void initTestClasses(TestClassRepository testClassRepository) {
-		var PATH = "/Users/fatih.sukran/Downloads/api/core/src/test";
-		var file = new File(PATH);
-		var classes = Main.findTestClasses(file);
+    /**
+     * initialize test classes from given path
+     */
+    private void initTestClasses(TestClassRepository testClassRepository) {
+        var PATH = "/Users/fatih.sukran/Downloads/api/core/src/test";
+        var file = new File(PATH);
 
-		classes.forEach(clazz -> {
-			if (!testClassRepository.existsByPath(clazz.getPath())) {
-				var testClass = new TestClass()
-						.setName(clazz.getName())
-						.setPath(clazz.getPath());
-				// TODO: add test methods
-				testClassRepository.save(testClass);
-			}
-		});
-	}
+        // find all test classes in the given directory
+        // save them to the database if they don't exist in the database
+        Main.findTestClasses(file).stream()
+                .filter(clazz -> !testClassRepository.existsByPath(clazz.getPath()))
+                .forEach(testClassRepository::save);
 
-	private void initTestMethods(TestClassRepository testClassRepository,
-								 TestMethodRepository testMethodRepository) {
-		var testClasses = testClassRepository.findAll();
+    }
 
-		for (var testClass : testClasses) {
-			var methods = Main.findTestMethods(testClass.getPath());
-			for (var method : methods) {
-				if (!testMethodRepository.existsByNameAndTestClassId(method.getName(), testClass.getId())) {
-//					var testMethod = new TestM
-//					testMethodRepository.save(method);
-				}
-			}
-		}
-	}
+    /**
+     * initialize test methods
+     */
+    private void initTestMethods(TestClassRepository testClassRepository,
+                                 TestMethodRepository testMethodRepository) {
+        var testClasses = testClassRepository.findAll();
+
+        for (var testClass : testClasses) {
+            // get existing method names from test class
+            var existingMethodNames = testClass.getTestMethods().stream()
+                    .map(TestMethod::getName)
+                    .collect(Collectors.toSet());
+
+            // find all test methods in the given directory
+            // add them to the test class if they don't exist in the database
+            Main.findTestMethods(testClass.getPath()).stream()
+                    .filter(method -> !existingMethodNames.contains(method.getName()))
+                    .map(testMethod -> testMethod.setTestClass(testClass))
+                    .forEach(testMethodRepository::save);
+
+            // save the test class
+            testClassRepository.save(testClass);
+        }
+    }
+
 }
