@@ -31,6 +31,9 @@ dependencies {
 
     // java parser
     implementation 'com.github.javaparser:javaparser-core:3.25.6'
+
+    // jenkins java client api
+    implementation 'com.offbytwo.jenkins:jenkins-client:0.3.8'
 }
 
 test {
