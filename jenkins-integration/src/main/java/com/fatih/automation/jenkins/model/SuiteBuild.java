@@ -1,12 +1,11 @@
 package com.fatih.automation.jenkins.model;
 
-import com.fatih.automation.common.model.TestSuite;
 import com.fatih.automation.jenkins.enums.BuildStatus;
-import com.fatih.automation.jenkins.enums.ResultStatus;
+
+import java.util.List;
 
 public class SuiteBuild {
     long id;
-    TestSuite testSuite;
+    List<TestBuild> testBuilds;
     BuildStatus buildStatus;
-    ResultStatus resultStatus;
 }
