@@ -2,18 +2,17 @@ package com.fatih.automation.common.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
 @Table(name = "test_suite")
 @Accessors(chain = true)
-public class TestSuite {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class TestSuite extends BaseEntity {
     private String name;
 
     @ManyToMany
