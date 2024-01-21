@@ -5,43 +5,22 @@ import com.fatih.automation.restapi.core.BaseCrud;
 import com.fatih.automation.restapi.repositories.TestClassRepository;
 import com.fatih.automation.restapi.repositories.TestMethodRepository;
 import com.fatih.automation.restapi.repositories.TestSuiteRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
-public class TestSuiteService implements BaseCrud<TestSuite, Long> {
+public class TestSuiteService extends BaseCrud<TestSuite, Long, TestSuiteRepository> {
 
-    private final TestSuiteRepository repository;
     private final TestMethodRepository testMethodRepository;
     private final TestClassRepository testClassRepository;
 
-    @Override
-    public TestSuite save(TestSuite testSuite) {
-        return repository.save(testSuite);
-    }
-
-    @Override
-    public Optional<TestSuite> findById(Long id) {
-        return repository.findById(id);
-    }
-
-    @Override
-    public List<TestSuite> findAll() {
-        return repository.findAll();
-    }
-
-    @Override
-    public void delete(TestSuite testSuite) {
-        repository.delete(testSuite);
-    }
-
-    @Override
-    public void deleteById(Long id) {
-        repository.deleteById(id);
+    public TestSuiteService(TestSuiteRepository repository,
+                            TestMethodRepository testMethodRepository,
+                            TestClassRepository testClassRepository) {
+        super(repository);
+        this.testMethodRepository = testMethodRepository;
+        this.testClassRepository = testClassRepository;
     }
 
     public TestSuite addTestMethods(Long testSuiteId, List<Long> testMethodIds) {
