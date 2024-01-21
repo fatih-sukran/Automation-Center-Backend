@@ -37,6 +37,12 @@ public class JenkinsUtil implements Closeable {
     }
 
     @SneakyThrows
+    public JenkinsJob getJob(String name) {
+        var job = jenkinsServer.getJob(name);
+        return new JenkinsJob(job.getName());
+    }
+
+    @SneakyThrows
     public List<JenkinsJob> getAllJobs(JenkinsView view) {
         return jenkinsServer
                 .getJobs(view.getName())
@@ -51,6 +57,11 @@ public class JenkinsUtil implements Closeable {
         return views.stream()
                 .flatMap(view -> getAllJobs(view).stream())
                 .toList();
+    }
+
+    @SneakyThrows
+    public String buildJob(JenkinsJob jenkinsJob) {
+        return jenkinsServer.getJob(jenkinsJob.getName()).build(true).getQueueItemUrlPart();
     }
 
     @Override
