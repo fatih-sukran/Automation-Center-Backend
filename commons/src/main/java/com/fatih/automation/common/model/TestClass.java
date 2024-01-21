@@ -24,4 +24,8 @@ public class TestClass extends BaseEntity {
     @JsonIgnore
     @ManyToMany(mappedBy = "testClasses")
     private List<TestSuite> testSuites;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "testClass")
+    private List<ClassBuild> classBuilds;
 }
