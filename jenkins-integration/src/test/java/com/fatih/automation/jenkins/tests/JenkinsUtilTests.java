@@ -5,14 +5,12 @@ import com.fatih.automation.jenkins.model.JenkinsView;
 import com.fatih.automation.jenkins.utils.JenkinsUtil;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 public class JenkinsUtilTests {
 
     @Test
-    public void checkGetView() throws IOException {
+    public void checkGetView() {
         var jenkinsUtil = new JenkinsUtil();
         var view = jenkinsUtil.getView("all");
 
@@ -21,12 +19,11 @@ public class JenkinsUtilTests {
 
         assertThat(view).isNotNull();
         assertThat(view.getName()).isEqualTo("all");
-
         jenkinsUtil.close();
     }
 
     @Test
-    public void checkGetAllViews() throws IOException {
+    public void checkGetAllViews() {
         var jenkinsUtil = new JenkinsUtil();
         var views = jenkinsUtil.getAllViews();
 
@@ -40,7 +37,7 @@ public class JenkinsUtilTests {
     }
 
     @Test
-    public void checkGetAllJobs() throws IOException {
+    public void checkGetAllJobs() {
         var jenkinsUtil = new JenkinsUtil();
         var jobs = jenkinsUtil.getAllJobs();
 
