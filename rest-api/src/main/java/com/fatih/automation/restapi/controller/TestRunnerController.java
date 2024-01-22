@@ -3,6 +3,7 @@ package com.fatih.automation.restapi.controller;
 import com.fatih.automation.common.enums.ResultStatus;
 import com.fatih.automation.common.model.TestBuild;
 import com.fatih.automation.common.model.build.ClassBuild;
+import com.fatih.automation.jenkins.testng.XmlSuiteGenerator;
 import com.fatih.automation.jenkins.utils.JenkinsUtil;
 import com.fatih.automation.restapi.services.TestBuildService;
 import com.fatih.automation.restapi.services.TestClassService;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -22,18 +24,18 @@ public class TestRunnerController {
     private final ClassBuildService classBuildService;
     private final TestBuildService testBuildService;
     private static final String JOB_NAME = "Automation Center";
-    private static final JenkinsUtil jenkinsUtil = new JenkinsUtil();
 
     @PostMapping("/{classId}")
     public ResponseEntity<TestBuild> runTestClass(@PathVariable Long classId) {
-        var job = jenkinsUtil.getJob(JOB_NAME);
-        var queueRef = jenkinsUtil.buildJob(job);
+        var job = JenkinsUtil.getJob(JOB_NAME);
+        var testClass = testClassService.findById(classId).orElseThrow();
+        var xmlSuiteText = new XmlSuiteGenerator().addTestClass(testClass).generate();
+        var queueId = JenkinsUtil.buildJob(job, Map.of("xmlSuite", xmlSuiteText));
 
-        var testBuild = new TestBuild().setQueueRef(queueRef);
+        var testBuild = new TestBuild()
+                .setQueueId(queueId);
         var savedTestBuild = testBuildService.save(testBuild);
 
-
-        var testClass = testClassService.findById(classId).orElse(null);
         var classBuild = new ClassBuild()
                 .setTestClass(testClass)
                 .setTestBuild(savedTestBuild)
@@ -45,7 +47,13 @@ public class TestRunnerController {
 
     @GetMapping("/{buildId}")
     public ResponseEntity<Optional<TestBuild>> findById(@PathVariable Long buildId) {
-        return ResponseEntity.ok(testBuildService.findById(buildId));
+        var testBuild = testBuildService.findById(buildId);
+        if (testBuild.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        testBuildService.updateStatus(testBuild.get());
+        return ResponseEntity.ok(testBuild);
     }
 
     @GetMapping
