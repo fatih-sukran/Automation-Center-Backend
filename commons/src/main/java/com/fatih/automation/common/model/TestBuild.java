@@ -20,6 +20,7 @@ import java.util.List;
 public class TestBuild extends BaseEntity {
 
     private String queueRef;
+    private Integer queueId;
 
     @OneToMany(mappedBy = "testBuild")
     private List<ClassBuild> classBuilds;
