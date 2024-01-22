@@ -64,13 +64,24 @@ public class Main {
                 classes.addAll(findTestClasses(f));
             } else if (isTestClass(f)) {
                 // add test class
-                var testClass = new TestClass()
-                        .setName(f.getName())
-                        .setPath(f.getAbsolutePath());
+                var testClass = getTestClass(f);
                 classes.add(testClass);
             }
         }
         return classes;
+    }
+
+    @SneakyThrows
+    public static TestClass getTestClass(File file) {
+        var compilationUnit = StaticJavaParser.parse(file);
+        var classDeclaration = compilationUnit.getTypes().get(0);
+        var packageName = compilationUnit.getPackageDeclaration().isPresent() ?
+                compilationUnit.getPackageDeclaration().get().getNameAsString() : null;
+
+        return new TestClass()
+                .setName(classDeclaration.getNameAsString())
+                .setPath(file.getAbsolutePath())
+                .setPackageName(packageName);
     }
 
     /**
