@@ -18,7 +18,7 @@ public class TestMethod extends BaseEntity {
         private String description;
 
         @JsonIgnore
-        @ManyToOne
+        @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "test_class_id")
         private TestClass testClass;
 

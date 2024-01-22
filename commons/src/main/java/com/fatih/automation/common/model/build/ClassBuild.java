@@ -22,7 +22,7 @@ public class ClassBuild extends BaseEntity {
     TestClass testClass;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "test_build_id")
     TestBuild testBuild;
 
