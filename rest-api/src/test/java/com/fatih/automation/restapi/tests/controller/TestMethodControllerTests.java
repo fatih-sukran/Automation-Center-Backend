@@ -20,9 +20,10 @@ public class TestMethodControllerTests {
     @Test
     public void shouldReturnTestMethodWhenAddedValid() {
         var testMethod = new TestMethod()
-                .setId(1L)
+//                .setId(1L)
                 .setName("name")
                 .setDescription("description");
+        testMethod.setId(1L);
         var testMethodResponse = testRestTemplate.postForEntity("/testmethods", testMethod, TestMethod.class);
 //        assertThat(testMethodResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 

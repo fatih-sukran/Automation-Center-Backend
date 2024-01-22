@@ -48,13 +48,15 @@ public class TestMethodServiceTests {
     @Test
     public void shouldGetAllTestMethods() {
         var testMethod1 = new TestMethod()
-                .setId(1L)
+//                .setId(1L)
                 .setName("name1")
                 .setDescription("description1");
+        testMethod1.setId(1L);
         var testMethod2 = new TestMethod()
-                .setId(2L)
+//                .setId(2L)
                 .setName("name2")
                 .setDescription("description2");
+        testMethod2.setId(2L);
         var testMethods = List.of(testMethod1, testMethod2);
         Mockito.when(testMethodRepository.findAll()).thenReturn(testMethods);
 
@@ -67,9 +69,10 @@ public class TestMethodServiceTests {
     @Test
     public void shouldGetTestMethodById() {
         var testMethod = new TestMethod()
-                .setId(1L)
+//                .setId(1L)
                 .setName("name")
                 .setDescription("description");
+        testMethod.setId(1L);
         Mockito.when(testMethodRepository.findById(1L)).thenReturn(Optional.of(testMethod));
 
         var testMethodResponse = testMethodService.findById(1L);
@@ -82,9 +85,10 @@ public class TestMethodServiceTests {
     @Test
     public void shouldReturnOptionalEmptyWhenTestMethodNotFound() {
         var testMethod = new TestMethod()
-                .setId(1L)
+//                .setId(1L)
                 .setName("name")
                 .setDescription("description");
+        testMethod.setId(1L);
         Mockito.when(testMethodRepository.findById(-1L)).thenReturn(Optional.empty());
 
         var actualTestMethod = testMethodService.findById(-1L);

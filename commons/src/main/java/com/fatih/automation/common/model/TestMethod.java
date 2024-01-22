@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
 
 import java.util.List;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Data
 @Entity
 @Table(name = "test_method")
