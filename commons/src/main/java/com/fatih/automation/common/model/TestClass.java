@@ -17,6 +17,7 @@ import java.util.List;
 public class TestClass extends BaseEntity {
     private String name;
     private String path;
+    private String packageName;
 
     @OneToMany(mappedBy = "testClass", fetch = FetchType.EAGER)
     private List<TestMethod> testMethods;
