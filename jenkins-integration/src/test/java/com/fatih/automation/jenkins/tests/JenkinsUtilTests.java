@@ -11,42 +11,34 @@ public class JenkinsUtilTests {
 
     @Test
     public void checkGetView() {
-        var jenkinsUtil = new JenkinsUtil();
-        var view = jenkinsUtil.getView("all");
+        var view = JenkinsUtil.getView("all");
 
         System.out.println("View: ");
         System.out.println(view);
 
         assertThat(view).isNotNull();
         assertThat(view.getName()).isEqualTo("all");
-        jenkinsUtil.close();
     }
 
     @Test
     public void checkGetAllViews() {
-        var jenkinsUtil = new JenkinsUtil();
-        var views = jenkinsUtil.getAllViews();
+        var views = JenkinsUtil.getAllViews();
 
         System.out.println("Views: ");
         views.forEach(System.out::println);
 
         assertThat(views).isNotEmpty();
         assertThat(views.stream().map(JenkinsView::getName)).contains("all");
-
-        jenkinsUtil.close();
     }
 
     @Test
     public void checkGetAllJobs() {
-        var jenkinsUtil = new JenkinsUtil();
-        var jobs = jenkinsUtil.getAllJobs();
+        var jobs = JenkinsUtil.getAllJobs();
 
         System.out.println("Jobs: ");
         jobs.forEach(System.out::println);
 
         assertThat(jobs).isNotEmpty();
         assertThat(jobs.stream().map(JenkinsJob::getName)).contains("Automation Center");
-
-        jenkinsUtil.close();
     }
 }
