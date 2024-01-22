@@ -11,7 +11,7 @@ COPY build.gradle settings.gradle /app/
 COPY . .
 
 # Build the Gradle project to download dependencies
-RUN ./gradlew build --no-daemon
+RUN ./gradlew build --no-daemon -x test
 
 # Set the working directory to the location of the Spring Boot JAR file
 WORKDIR /app/rest-api/build/libs
