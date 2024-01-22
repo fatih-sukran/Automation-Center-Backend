@@ -2,6 +2,7 @@ package com.fatih.automation.restapi;
 
 import com.fatih.automation.common.model.TestMethod;
 import com.fatih.automation.jenkins.Main;
+import com.fatih.automation.jenkins.utils.ReadGitRepository;
 import com.fatih.automation.restapi.repositories.TestClassRepository;
 import com.fatih.automation.restapi.repositories.TestMethodRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -11,7 +12,6 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 
-import java.io.File;
 import java.util.stream.Collectors;
 
 @EntityScan(basePackages = {"com.fatih.automation"})
@@ -38,8 +38,7 @@ public class AutomationApplication {
      * initialize test classes from given path
      */
     private void initTestClasses(TestClassRepository testClassRepository) {
-        var PATH = "/Users/fatih.sukran/Downloads/api/core/src/test";
-        var file = new File(PATH);
+        var file = ReadGitRepository.cloneRepository();
 
         // find all test classes in the given directory
         // save them to the database if they don't exist in the database
