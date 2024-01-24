@@ -35,6 +35,41 @@ public class Main {
         return methods;
     }
 
+    @SneakyThrows
+    public static File findTestClassFileByPackageName(File repository, String packageName) {
+        checkFileExists(repository);
+
+        // find all test classes in the given directory
+        for (var file : repository.listFiles()) {
+            // skip non-java files
+            if (file.isFile() && !isJavaFile(file)) {
+                continue;
+            }
+
+            if (file.isDirectory()) {
+                var actual = findTestClassFileByPackageName(file, packageName);
+                if (actual != null) {
+                    return actual;
+                }
+                continue;
+            }
+
+            var compilationUnit = StaticJavaParser.parse(file);
+            var classDeclaration = compilationUnit.getTypes().get(0);
+
+            if (classDeclaration == null || compilationUnit.getPackageDeclaration().isEmpty()) {
+                return null;
+            }
+
+            var actualPackageName = compilationUnit.getPackageDeclaration().get().getName().asString();
+            if (packageName.equals(actualPackageName)) {
+                return file;
+            }
+        }
+
+        return null;
+    }
+
     /**
      * find all test classes in the given directory
      *
