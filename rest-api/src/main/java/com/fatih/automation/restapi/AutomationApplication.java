@@ -43,7 +43,7 @@ public class AutomationApplication {
         // find all test classes in the given directory
         // save them to the database if they don't exist in the database
         Main.findTestClasses(file).stream()
-                .filter(clazz -> !testClassRepository.existsByPath(clazz.getPath()))
+                .filter(clazz -> !testClassRepository.existsByPackageName(clazz.getPackageName()))
                 .forEach(testClassRepository::save);
 
     }
@@ -61,9 +61,10 @@ public class AutomationApplication {
                     .map(TestMethod::getName)
                     .collect(Collectors.toSet());
 
+            var file = ReadGitRepository.cloneRepository();
             // find all test methods in the given directory
             // add them to the test class if they don't exist in the database
-            Main.findTestMethods(testClass.getPath()).stream()
+            Main.findTestMethods(file).stream()
                     .filter(method -> !existingMethodNames.contains(method.getName()))
                     .map(testMethod -> testMethod.setTestClass(testClass))
                     .forEach(testMethodRepository::save);

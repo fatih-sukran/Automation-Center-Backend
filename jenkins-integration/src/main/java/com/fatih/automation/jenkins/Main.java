@@ -13,11 +13,6 @@ import java.util.List;
 
 public class Main {
 
-    public static List<TestMethod> findTestMethods(String absolutePath) {
-        var file = new File(absolutePath);
-        return findTestMethods(file);
-    }
-
     @SneakyThrows
     public static List<TestMethod> findTestMethods(@NotNull File file) {
         checkFileExists(file);
@@ -80,7 +75,6 @@ public class Main {
 
         return new TestClass()
                 .setName(classDeclaration.getNameAsString())
-                .setPath(file.getAbsolutePath())
                 .setPackageName(packageName);
     }
 

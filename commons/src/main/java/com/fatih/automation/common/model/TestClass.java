@@ -16,7 +16,6 @@ import java.util.List;
 @Accessors(chain = true)
 public class TestClass extends BaseEntity {
     private String name;
-    private String path;
     private String packageName;
 
     @OneToMany(mappedBy = "testClass", fetch = FetchType.EAGER)
