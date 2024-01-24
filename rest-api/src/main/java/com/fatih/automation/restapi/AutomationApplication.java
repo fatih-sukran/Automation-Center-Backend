@@ -61,10 +61,11 @@ public class AutomationApplication {
                     .map(TestMethod::getName)
                     .collect(Collectors.toSet());
 
-            var file = ReadGitRepository.cloneRepository();
+            var repository = ReadGitRepository.cloneRepository();
+            var path = Main.findTestClassFileByPackageName(repository, testClass.getPackageName());
             // find all test methods in the given directory
             // add them to the test class if they don't exist in the database
-            Main.findTestMethods(file).stream()
+            Main.findTestMethods(path).stream()
                     .filter(method -> !existingMethodNames.contains(method.getName()))
                     .map(testMethod -> testMethod.setTestClass(testClass))
                     .forEach(testMethodRepository::save);
