@@ -29,8 +29,8 @@ public class AutomationApplication {
     CommandLineRunner init(TestClassRepository testClassRepository,
                            TestMethodRepository testMethodRepository) {
         return args -> {
-            initTestClasses(testClassRepository);
-            initTestMethods(testClassRepository, testMethodRepository);
+//            initTestClasses(testClassRepository);
+//            initTestMethods(testClassRepository, testMethodRepository);
         };
     }
 
