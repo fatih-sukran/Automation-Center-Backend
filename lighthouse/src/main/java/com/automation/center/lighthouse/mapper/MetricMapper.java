@@ -4,14 +4,12 @@ import com.automation.center.lighthouse.dto.metric.AddMetricDto;
 import com.automation.center.lighthouse.dto.metric.MetricDto;
 import com.automation.center.lighthouse.model.Metric;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface MetricMapper {
 
-    @Mapping(target = "id", source = "")
     Metric toMetrics(AddMetricDto source);
 
     Metric toMetrics(MetricDto source);
