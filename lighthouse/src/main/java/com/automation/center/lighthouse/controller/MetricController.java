@@ -20,7 +20,7 @@ public class MetricController {
 
     @PostMapping
     public MetricDto save(@RequestBody AddMetricDto testClass) {
-        var metric = mapper.toMetric(testClass);
+        var metric = mapper.toMetrics(testClass);
         var savedMetric = service.save(metric);
 
         return mapper.toMetricDto(savedMetric);
@@ -33,12 +33,16 @@ public class MetricController {
             return ResponseEntity.notFound().build();
         }
         var metricDto = mapper.toMetricDto(optionalMetric.get());
+
         return ResponseEntity.ok(metricDto);
     }
 
     @GetMapping
     public ResponseEntity<List<MetricDto>> findAll() {
-        return ResponseEntity.ok(service.findAll());
+        var metrics = service.findAll();
+        var metricDtos = mapper.toMetricDtos(metrics);
+
+        return ResponseEntity.ok(metricDtos);
     }
 
     @DeleteMapping("/{id}")

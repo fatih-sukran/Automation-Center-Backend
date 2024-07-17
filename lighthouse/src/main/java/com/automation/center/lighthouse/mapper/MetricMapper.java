@@ -6,15 +6,25 @@ import com.automation.center.lighthouse.model.Metric;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface MetricMapper {
 
     @Mapping(target = "id", source = "")
-    Metric toMetric(AddMetricDto addMetricDto);
+    Metric toMetrics(AddMetricDto source);
 
-    Metric toMetric(MetricDto metricDto);
+    Metric toMetrics(MetricDto source);
 
-    AddMetricDto toAddMetricDto(Metric metric);
+    AddMetricDto toAddMetricDto(Metric source);
 
-    MetricDto toMetricDto(Metric metric);
+    MetricDto toMetricDto(Metric source);
+
+    List<Metric> toMetricsFromAddMetrics(List<AddMetricDto> source);
+
+    List<Metric> toMetricsFromMetricDtos(List<MetricDto> source);
+
+    List<AddMetricDto> toAddMetricDtos(List<Metric> source);
+
+    List<MetricDto> toMetricDtos(List<Metric> source);
 }
