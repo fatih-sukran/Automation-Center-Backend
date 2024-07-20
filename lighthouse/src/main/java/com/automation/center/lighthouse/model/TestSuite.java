@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,4 +22,7 @@ public final class TestSuite {
     private LocalDateTime startDate;
     @Column(name = "end_date")
     private LocalDateTime endDate;
+    @OneToMany(mappedBy = "testSuite")
+    @ToString.Exclude
+    private List<ResultHistory> resultHistories;
 }
