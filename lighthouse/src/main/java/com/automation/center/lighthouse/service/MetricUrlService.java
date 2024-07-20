@@ -11,4 +11,6 @@ public class MetricUrlService extends BaseCrud<MetricUrl, Long, MetricUrlReposit
     public MetricUrlService(MetricUrlRepository repository) {
         super(repository);
     }
+
+
 }

@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 public abstract class BaseCrud<T, ID, R extends JpaRepository<T, ID>> {
@@ -15,8 +14,8 @@ public abstract class BaseCrud<T, ID, R extends JpaRepository<T, ID>> {
         return repository.save(t);
     }
 
-    public Optional<T> findById(ID id) {
-        return repository.findById(id);
+    public T findById(ID id) {
+        return repository.findById(id).orElseThrow();
     }
 
     public List<T> findAll() {

@@ -28,13 +28,10 @@ public class MetricController {
 
     @GetMapping("/{id}")
     public ResponseEntity<MetricDto> findById(@PathVariable Long id) {
-        var optionalMetric = service.findById(id);
-        if (optionalMetric.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        var metricDto = mapper.toMetricDto(optionalMetric.get());
+        var metric = service.findById(id);
+        var metricDto = mapper.toMetricDto(metric);
 
-        return ResponseEntity.ok(metricDto);
+        return ResponseEntity.ofNullable(metricDto);
     }
 
     @GetMapping

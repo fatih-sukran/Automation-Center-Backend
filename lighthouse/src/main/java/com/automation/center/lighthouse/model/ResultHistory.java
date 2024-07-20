@@ -10,11 +10,14 @@ import lombok.ToString;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@Entity
+@Entity(name = "result_history")
 public final class ResultHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @ManyToOne
+    @JoinColumn(name = "test_suite_id")
+    private TestSuite testSuite;
     @ManyToOne
     @JoinColumn(name = "url_id")
     private MetricUrl url;

@@ -20,7 +20,7 @@ public class MetricUrlController {
 
     @PostMapping
     public MetricUrlDto save(@RequestBody AddMetricUrlDto addMetricUrlDto) {
-        var metric = mapper.toModel(addMetricUrlDto);
+        var metric = mapper.toEntity(addMetricUrlDto);
         var savedMetric = service.save(metric);
 
         return mapper.toDto(savedMetric);
@@ -28,19 +28,16 @@ public class MetricUrlController {
 
     @GetMapping("/{id}")
     public ResponseEntity<MetricUrlDto> findById(@PathVariable Long id) {
-        var optionalMetric = service.findById(id);
-        if (optionalMetric.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        var metricDto = mapper.toDto(optionalMetric.get());
+        var metricUrl = service.findById(id);
+        var metricDto = mapper.toDto(metricUrl);
 
-        return ResponseEntity.ok(metricDto);
+        return ResponseEntity.ofNullable(metricDto);
     }
 
     @GetMapping
     public ResponseEntity<List<MetricUrlDto>> findAll() {
         var metrics = service.findAll();
-        var metricDtos = mapper.toDto(metrics);
+        var metricDtos = mapper.toDtos(metrics);
 
         return ResponseEntity.ok(metricDtos);
     }
