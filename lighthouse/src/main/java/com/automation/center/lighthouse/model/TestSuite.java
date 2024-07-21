@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -24,5 +25,5 @@ public final class TestSuite {
     private LocalDateTime endDate;
     @OneToMany(mappedBy = "testSuite")
     @ToString.Exclude
-    private List<ResultHistory> resultHistories;
+    private List<MetricResult> metricResults = new ArrayList<>();
 }

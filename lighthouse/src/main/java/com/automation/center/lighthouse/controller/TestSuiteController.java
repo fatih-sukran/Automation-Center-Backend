@@ -11,34 +11,34 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/test-suite")
+@RequestMapping(value = "/api/v1/test-suite", name = "Test Suite Controller")
 @RequiredArgsConstructor
 public class TestSuiteController {
     private final TestSuiteMapper mapper;
     private final TestSuiteService service;
 
     @PostMapping
-    public TestSuiteDto save(@RequestBody AddTestSuiteDto addMetricUrlDto) {
-        var metric = mapper.toEntity(addMetricUrlDto);
-        var savedMetric = service.save(metric);
+    public TestSuiteDto save(@RequestBody AddTestSuiteDto addDto) {
+        var entity = mapper.toEntity(addDto);
+        var savedEntity = service.save(entity);
 
-        return mapper.toDto(savedMetric);
+        return mapper.toDto(savedEntity);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<TestSuiteDto> findById(@PathVariable Long id) {
-        var metricUrl = service.findById(id);
-        var metricDto = mapper.toDto(metricUrl);
+        var entity = service.findById(id);
+        var dto = mapper.toDto(entity);
 
-        return ResponseEntity.ofNullable(metricDto);
+        return ResponseEntity.ofNullable(dto);
     }
 
     @GetMapping
     public ResponseEntity<List<TestSuiteDto>> findAll() {
-        var metrics = service.findAll();
-        var metricDtos = mapper.toDtos(metrics);
+        var entities = service.findAll();
+        var dtos = mapper.toDtos(entities);
 
-        return ResponseEntity.ok(metricDtos);
+        return ResponseEntity.ok(dtos);
     }
 
     @DeleteMapping("/{id}")

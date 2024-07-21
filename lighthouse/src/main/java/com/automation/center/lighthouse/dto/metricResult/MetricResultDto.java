@@ -1,15 +1,15 @@
 package com.automation.center.lighthouse.dto.metricResult;
 
-import com.automation.center.lighthouse.model.Metric;
-import com.automation.center.lighthouse.model.MetricUrl;
+import com.automation.center.lighthouse.dto.UrlProductDto.MetricUrlDto;
+import com.automation.center.lighthouse.dto.metric.MetricDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
 public class MetricResultDto {
     private Long id;
-    private Metric metric;
+    private MetricDto metric;
     @JsonProperty("metric_url")
-    private MetricUrl metricUrl;
+    private MetricUrlDto metricUrl;
     private String value;
 }

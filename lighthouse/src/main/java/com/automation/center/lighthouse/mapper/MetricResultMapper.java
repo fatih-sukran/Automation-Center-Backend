@@ -7,10 +7,11 @@ import com.automation.center.lighthouse.model.MetricResult;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface MetricResultMapper extends BaseMapper<MetricResult, MetricResultDto> {
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "metric", source = "metricId")
-    @Mapping(target = "metricUrl", source = "metricUrlId")
+    @Mapping(target = "metric.id", source = "metricId")
+    @Mapping(target = "metricUrl.id", source = "metricUrlId")
+    @Mapping(target = "testSuite.id", source = "testSuiteId")
     MetricResult toEntity(AddMetricResultDto dto);
 }

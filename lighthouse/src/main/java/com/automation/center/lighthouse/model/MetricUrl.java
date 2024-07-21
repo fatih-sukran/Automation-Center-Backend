@@ -22,6 +22,7 @@ public final class MetricUrl {
     private String url;
     @Column(name = "cron")
     private String cron;
+
     @ManyToMany
     @ToString.Exclude
     private List<Metric> metrics = new ArrayList<>();

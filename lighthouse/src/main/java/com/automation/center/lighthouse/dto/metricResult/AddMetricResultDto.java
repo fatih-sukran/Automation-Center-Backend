@@ -9,5 +9,7 @@ public class AddMetricResultDto {
     private Long metricId;
     @JsonProperty("metric_url_id")
     private Long metricUrlId;
+    @JsonProperty("test_suite_id")
+    private Long testSuiteId;
     private String value;
 }
