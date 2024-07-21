@@ -1,6 +1,6 @@
 package com.automation.center.lighthouse.dto.resultHistory;
 
-import com.automation.center.lighthouse.dto.metricurl.MetricUrlDto;
+import com.automation.center.lighthouse.dto.UrlProductDto.MetricUrlDto;
 import lombok.Data;
 
 @Data

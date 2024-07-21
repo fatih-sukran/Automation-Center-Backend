@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity(name = "metric")
 @Getter
 @Setter
@@ -17,4 +20,7 @@ public class Metric {
     private String name;
     @Column(name = "code")
     private String code;
+    @ManyToMany(mappedBy = "metrics")
+    @ToString.Exclude
+    private List<MetricUrl> metricUrls = new ArrayList<>();
 }

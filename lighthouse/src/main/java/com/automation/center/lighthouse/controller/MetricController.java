@@ -20,16 +20,16 @@ public class MetricController {
 
     @PostMapping
     public MetricDto save(@RequestBody AddMetricDto testClass) {
-        var metric = mapper.toMetrics(testClass);
+        var metric = mapper.toEntity(testClass);
         var savedMetric = service.save(metric);
 
-        return mapper.toMetricDto(savedMetric);
+        return mapper.toDto(savedMetric);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<MetricDto> findById(@PathVariable Long id) {
         var metric = service.findById(id);
-        var metricDto = mapper.toMetricDto(metric);
+        var metricDto = mapper.toDto(metric);
 
         return ResponseEntity.ofNullable(metricDto);
     }
@@ -37,7 +37,7 @@ public class MetricController {
     @GetMapping
     public ResponseEntity<List<MetricDto>> findAll() {
         var metrics = service.findAll();
-        var metricDtos = mapper.toMetricDtos(metrics);
+        var metricDtos = mapper.toDtos(metrics);
 
         return ResponseEntity.ok(metricDtos);
     }

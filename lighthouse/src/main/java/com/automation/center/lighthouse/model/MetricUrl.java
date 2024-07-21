@@ -6,21 +6,23 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity(name = "metric_url")
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-@Table(uniqueConstraints = @UniqueConstraint(name = "url_and_metric", columnNames = {"url", "metric_id"}))
 public final class MetricUrl {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "url")
     private String url;
-    @ManyToOne
-    @JoinColumn(name = "metric_id")
-    private Metric metric;
     @Column(name = "cron")
     private String cron;
+    @ManyToMany
+    @ToString.Exclude
+    private List<Metric> metrics = new ArrayList<>();
 }
