@@ -22,7 +22,7 @@ public class MetricResult {
     private Metric metric;
     @ManyToOne
     @JoinColumn(name = "metric_url_id")
-    private MetricUrl metricUrl;
+    private SuiteItem suiteItem;
     @ManyToOne
     @JoinColumn(name = "test_suite_id")
     private TestSuite testSuite;

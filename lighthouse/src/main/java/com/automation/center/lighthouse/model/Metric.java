@@ -23,5 +23,5 @@ public class Metric {
 
     @ManyToMany(mappedBy = "metrics")
     @ToString.Exclude
-    private List<MetricUrl> metricUrls = new ArrayList<>();
+    private List<SuiteItem> suiteItems = new ArrayList<>();
 }

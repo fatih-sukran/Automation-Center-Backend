@@ -13,5 +13,7 @@ public class TestSuiteDto {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private String name;
+    private String description;
+    private String cron;
     private List<MetricResultDto> metricResults = new ArrayList<>();
 }

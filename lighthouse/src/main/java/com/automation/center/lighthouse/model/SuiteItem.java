@@ -9,12 +9,12 @@ import lombok.ToString;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name = "metric_url")
+@Entity(name = "suite_item")
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-public final class MetricUrl {
+public final class SuiteItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

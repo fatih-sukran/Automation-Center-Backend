@@ -24,6 +24,8 @@ public final class TestSuite {
     @Column(name = "end_date")
     private LocalDateTime endDate;
     private String name;
+    private String description;
+    private String cron;
 
     @OneToMany(mappedBy = "testSuite")
     @ToString.Exclude
