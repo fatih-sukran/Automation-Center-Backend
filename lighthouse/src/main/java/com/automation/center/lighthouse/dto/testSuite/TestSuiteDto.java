@@ -12,5 +12,6 @@ public class TestSuiteDto {
     private Long id;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+    private String name;
     private List<MetricResultDto> metricResults = new ArrayList<>();
 }

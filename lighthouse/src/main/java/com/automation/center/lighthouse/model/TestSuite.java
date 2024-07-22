@@ -23,6 +23,8 @@ public final class TestSuite {
     private LocalDateTime startDate;
     @Column(name = "end_date")
     private LocalDateTime endDate;
+    private String name;
+
     @OneToMany(mappedBy = "testSuite")
     @ToString.Exclude
     private List<MetricResult> metricResults = new ArrayList<>();
