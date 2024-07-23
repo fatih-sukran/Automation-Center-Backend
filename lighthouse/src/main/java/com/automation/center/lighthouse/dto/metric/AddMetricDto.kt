@@ -1,4 +1,3 @@
-package com.automation.center.lighthouse.dto.metric;
+package com.automation.center.lighthouse.dto.metric
 
-public record AddMetricDto(String name, String code) {
-}
+data class AddMetricDto(var name: String? = null, var code: String? = null)

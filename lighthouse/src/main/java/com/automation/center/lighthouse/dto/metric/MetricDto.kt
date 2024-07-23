@@ -1,4 +1,3 @@
-package com.automation.center.lighthouse.dto.metric;
+package com.automation.center.lighthouse.dto.metric
 
-public record MetricDto(long id, String name, String code) {
-}
+data class MetricDto(var id: Long? = null, var name: String? = null, var code: String? = null)

@@ -8,10 +8,11 @@ import com.automation.center.lighthouse.service.SuiteItemService;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", uses = SuiteItemService.class)
+@Mapper(componentModel = "spring", uses = {SuiteItemService.class, MetricMapper.class})
 public interface SuiteItemMapper extends BaseMapper<SuiteItem, SuiteItemDto> {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "metrics", ignore = true)
+    @Mapping(target = "testSuite.id", source = "suiteId")
         //todo: daha sonra id'i entitiy'e dönüştür
     SuiteItem toEntity(AddSuiteItemDto addMetricUrDto);
 }

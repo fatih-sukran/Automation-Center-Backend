@@ -1,19 +1,11 @@
-package com.automation.center.lighthouse.dto.testSuite;
+package com.automation.center.lighthouse.dto.testSuite
 
-import com.automation.center.lighthouse.dto.metricResult.MetricResultDto;
-import lombok.Data;
+import com.automation.center.lighthouse.dto.suiteItem.SuiteItemDto
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
-@Data
-public class TestSuiteDto {
-    private Long id;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
-    private String name;
-    private String description;
-    private String cron;
-    private List<MetricResultDto> metricResults = new ArrayList<>();
-}
+data class TestSuiteDto(
+    var id: Long? = null,
+    var name: String? = null,
+    var description: String? = null,
+    var cron: String? = null,
+    val suiteItems: List<SuiteItemDto> = ArrayList()
+)

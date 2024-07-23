@@ -1,29 +1,28 @@
-package com.automation.center.lighthouse.model;
+package com.automation.center.lighthouse.model
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import jakarta.persistence.*
+import lombok.Data
+import lombok.ToString
 
-import java.util.ArrayList;
-import java.util.List;
-
+@Data
 @Entity(name = "suite_item")
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
-public final class SuiteItem {
+class SuiteItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    var id: Long? = null
+
     @Column(name = "url")
-    private String url;
+    var url: String? = null
+
     @Column(name = "cron")
-    private String cron;
+    var cron: String? = null
 
     @ManyToMany
     @ToString.Exclude
-    private List<Metric> metrics = new ArrayList<>();
+    val metrics: List<Metric> = ArrayList()
+
+    @ManyToOne
+    @ToString.Exclude
+    @JoinColumn(name = "test_suite_id")
+    var testSuite: TestSuite? = null
 }

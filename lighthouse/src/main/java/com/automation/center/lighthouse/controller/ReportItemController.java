@@ -1,24 +1,25 @@
 package com.automation.center.lighthouse.controller;
 
-import com.automation.center.lighthouse.dto.metricResult.AddMetricResultDto;
-import com.automation.center.lighthouse.dto.metricResult.MetricResultDto;
-import com.automation.center.lighthouse.mapper.MetricResultMapper;
-import com.automation.center.lighthouse.service.MetricResultService;
+import com.automation.center.lighthouse.dto.reportItem.AddReportItemDto;
+import com.automation.center.lighthouse.dto.reportItem.ReportItemDto;
+import com.automation.center.lighthouse.mapper.ReportItemMapper;
+import com.automation.center.lighthouse.service.ReportItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
-@RequestMapping("/api/v1/metric-result")
+@RequestMapping("/api/v1/report-item")
 @RequiredArgsConstructor
-public class MetricResultController {
-    private final MetricResultMapper mapper;
-    private final MetricResultService service;
+public class ReportItemController {
+    private final ReportItemMapper mapper;
+    private final ReportItemService service;
 
     @PostMapping
-    public MetricResultDto save(@RequestBody AddMetricResultDto testClass) {
+    public ReportItemDto save(@RequestBody AddReportItemDto testClass) {
         var metric = mapper.toEntity(testClass);
         var savedMetric = service.save(metric);
 
@@ -26,7 +27,7 @@ public class MetricResultController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MetricResultDto> findById(@PathVariable Long id) {
+    public ResponseEntity<ReportItemDto> findById(@PathVariable Long id) {
         var metric = service.findById(id);
         var metricDto = mapper.toDto(metric);
 
@@ -34,7 +35,7 @@ public class MetricResultController {
     }
 
     @GetMapping
-    public ResponseEntity<List<MetricResultDto>> findAll() {
+    public ResponseEntity<List<ReportItemDto>> findAll() {
         var metrics = service.findAll();
         var metricDtos = mapper.toDtos(metrics);
 

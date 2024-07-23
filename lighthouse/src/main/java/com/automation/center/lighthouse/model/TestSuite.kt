@@ -1,33 +1,25 @@
-package com.automation.center.lighthouse.model;
+package com.automation.center.lighthouse.model
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.persistence.*
+import lombok.Getter
+import lombok.RequiredArgsConstructor
+import lombok.Setter
+import lombok.ToString
 
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
 @Entity(name = "test_suite")
-public final class TestSuite {
+class TestSuite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(name = "start_date")
-    private LocalDateTime startDate;
-    @Column(name = "end_date")
-    private LocalDateTime endDate;
-    private String name;
-    private String description;
-    private String cron;
+    var id: Long? = null
+    var name: String? = null
+    var description: String? = null
+    var cron: String? = null
 
-    @OneToMany(mappedBy = "testSuite")
-    @ToString.Exclude
-    private List<MetricResult> metricResults = new ArrayList<>();
+    @OneToMany
+    @JoinColumn(name = "test_suite_id")
+    val suiteItems: List<SuiteItem> = ArrayList()
 }

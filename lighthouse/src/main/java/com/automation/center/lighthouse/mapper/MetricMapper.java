@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface MetricMapper extends BaseMapper<Metric, MetricDto> {
-    @Mapping(target = "metricUrls", ignore = true)
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "suiteItems", ignore = true)
     Metric toEntity(AddMetricDto metricDto);
 }

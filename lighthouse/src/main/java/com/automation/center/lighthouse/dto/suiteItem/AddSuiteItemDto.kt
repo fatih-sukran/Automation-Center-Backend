@@ -1,13 +1,11 @@
-package com.automation.center.lighthouse.dto.suiteItem;
+package com.automation.center.lighthouse.dto.suiteItem
 
-import lombok.Data;
-
-import java.util.ArrayList;
-import java.util.List;
+import lombok.Data
 
 @Data
-public class AddSuiteItemDto {
-    private String url;
-    private String cron;
-    private List<Long> metricIds = new ArrayList<>();
-}
+data class AddSuiteItemDto(
+    var url: String? = null,
+    var cron: String? = null,
+    var suiteId: Long? = null,
+    val metricIds: List<Long> = ArrayList()
+)

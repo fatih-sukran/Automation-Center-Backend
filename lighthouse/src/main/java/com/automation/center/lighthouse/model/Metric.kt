@@ -1,27 +1,21 @@
-package com.automation.center.lighthouse.model;
+package com.automation.center.lighthouse.model
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import jakarta.persistence.*
+import lombok.Data
 
-import java.util.ArrayList;
-import java.util.List;
-
+@Data
 @Entity(name = "metric")
-@Getter
-@Setter
-@ToString
-public class Metric {
+class Metric {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    var id: Long? = null
+
     @Column(name = "name")
-    private String name;
+    var name: String? = null
+
     @Column(name = "code")
-    private String code;
+    var code: String? = null
 
     @ManyToMany(mappedBy = "metrics")
-    @ToString.Exclude
-    private List<SuiteItem> suiteItems = new ArrayList<>();
+    var suiteItems: List<SuiteItem> = ArrayList()
 }

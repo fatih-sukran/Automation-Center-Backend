@@ -1,15 +1,12 @@
-package com.automation.center.lighthouse.dto.suiteItem;
+package com.automation.center.lighthouse.dto.suiteItem
 
-import com.automation.center.lighthouse.dto.metric.MetricDto;
-import lombok.Data;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.automation.center.lighthouse.dto.metric.MetricDto
+import lombok.Data
 
 @Data
-public class SuiteItemDto {
-    private Long id;
-    private String url;
-    private String cron;
-    private List<MetricDto> metrics = new ArrayList<>();
-}
+data class SuiteItemDto(
+    var id: Long? = null,
+    var url: String? = null,
+    var cron: String? = null,
+    val metrics: List<MetricDto> = ArrayList()
+)

@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/v1/suite-item")
@@ -56,7 +57,7 @@ public class SuiteItemController {
     @PostMapping(value = "/{id}/metric", name = "Add Metric to Metric Url")
     public SuiteItemDto addMetric(@PathVariable Long id, @RequestBody MetricDto metricDto) {
         // Find or create metric
-        var metric = metricService.findById(metricDto.id());
+        var metric = metricService.findById(metricDto.getId());
         if (metric == null) {
             metric = metricMapper.toEntity(metricDto);
             metricService.save(metric);
@@ -79,7 +80,7 @@ public class SuiteItemController {
         if (metricUrl == null) {
             return null;
         } else {
-            metricUrl.getMetrics().removeIf(metric -> metric.getId().equals(metricId));
+            metricUrl.getMetrics().removeIf(metric -> Objects.equals(metric.getId(), metricId));
             return mapper.toDto(metricUrl);
         }
     }
