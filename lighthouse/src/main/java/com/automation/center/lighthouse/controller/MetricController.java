@@ -6,6 +6,7 @@ import com.automation.center.lighthouse.dto.metric.MetricDto;
 import com.automation.center.lighthouse.mapper.MetricMapper;
 import com.automation.center.lighthouse.service.MetricService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,11 +20,11 @@ public class MetricController {
     private final MetricService service;
 
     @PostMapping
-    public MetricDto save(@RequestBody AddMetricDto testClass) {
+    public ResponseEntity<MetricDto> save(@RequestBody AddMetricDto testClass) {
         var metric = mapper.toEntity(testClass);
         var savedMetric = service.save(metric);
 
-        return mapper.toDto(savedMetric);
+        return new ResponseEntity<>(mapper.toDto(savedMetric), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
