@@ -1,0 +1,7 @@
+server:
+  port: 8082
+
+jenkins:
+  username: 'admin'
+  password: 'admin'
+  url: 'http://localhost:8081'
