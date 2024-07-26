@@ -6,7 +6,7 @@ target/
 .kotlin
 .mvn
 .jpb
-jenkins_home
+!**/docker/
 
 ### STS ###
 .apt_generated
