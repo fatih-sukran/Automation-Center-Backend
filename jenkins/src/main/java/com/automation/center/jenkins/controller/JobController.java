@@ -21,7 +21,7 @@ public class JobController {
         return new ResponseEntity<>(savedJob, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{name}")
     public ResponseEntity<Job> findByName(@PathVariable String name) {
         var job = service.get(name);
         return ResponseEntity.ofNullable(job);
@@ -34,7 +34,7 @@ public class JobController {
         return ResponseEntity.ok(jobs);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{name}")
     public ResponseEntity<Void> delete(@PathVariable String name) {
         service.delete(name);
         return ResponseEntity.ok().build();
