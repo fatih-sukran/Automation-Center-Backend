@@ -1,7 +1,7 @@
 package com.automation.center.lighthouse.dto.testSuite
 
 import com.automation.center.lighthouse.dto.metric.MetricDto
-import com.automation.center.lighthouse.dto.suiteItem.SuiteUrlDto
+import com.automation.center.lighthouse.dto.suiteUrl.SuiteUrlDto
 
 data class TestSuiteDto(
     var id: Long? = null,

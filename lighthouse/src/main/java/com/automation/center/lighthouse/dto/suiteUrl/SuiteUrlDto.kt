@@ -1,4 +1,4 @@
-package com.automation.center.lighthouse.dto.suiteItem
+package com.automation.center.lighthouse.dto.suiteUrl
 
 data class SuiteUrlDto(
     var id: Long? = null,

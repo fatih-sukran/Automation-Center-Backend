@@ -1,8 +1,8 @@
 package com.automation.center.lighthouse.mapper;
 
 import com.automation.center.lighthouse.base.BaseMapper;
-import com.automation.center.lighthouse.dto.suiteItem.AddSuiteUrlDto;
-import com.automation.center.lighthouse.dto.suiteItem.SuiteUrlDto;
+import com.automation.center.lighthouse.dto.suiteUrl.AddSuiteUrlDto;
+import com.automation.center.lighthouse.dto.suiteUrl.SuiteUrlDto;
 import com.automation.center.lighthouse.model.SuiteUrl;
 import com.automation.center.lighthouse.service.SuiteItemService;
 import org.mapstruct.Mapper;

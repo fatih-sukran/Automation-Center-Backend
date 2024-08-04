@@ -1,4 +1,4 @@
-package com.automation.center.lighthouse.dto.suiteItem
+package com.automation.center.lighthouse.dto.suiteUrl
 
 import lombok.Data
 

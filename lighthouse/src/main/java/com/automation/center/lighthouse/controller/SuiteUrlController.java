@@ -1,7 +1,7 @@
 package com.automation.center.lighthouse.controller;
 
-import com.automation.center.lighthouse.dto.suiteItem.AddSuiteUrlDto;
-import com.automation.center.lighthouse.dto.suiteItem.SuiteUrlDto;
+import com.automation.center.lighthouse.dto.suiteUrl.AddSuiteUrlDto;
+import com.automation.center.lighthouse.dto.suiteUrl.SuiteUrlDto;
 import com.automation.center.lighthouse.mapper.SuiteItemMapper;
 import com.automation.center.lighthouse.service.SuiteItemService;
 import lombok.RequiredArgsConstructor;
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/suite-item")
+@RequestMapping("/api/v1/url")
 @RequiredArgsConstructor
-public class SuiteItemController {
+public class SuiteUrlController {
     private final SuiteItemMapper mapper;
     private final SuiteItemService service;
 
