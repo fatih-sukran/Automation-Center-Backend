@@ -17,5 +17,5 @@ class Metric {
     var code: String? = null
 
     @ManyToMany(mappedBy = "metrics")
-    var suiteItems: List<SuiteItem> = ArrayList()
+    var suits: List<TestSuite> = ArrayList()
 }

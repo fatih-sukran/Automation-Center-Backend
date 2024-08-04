@@ -19,7 +19,10 @@ class TestSuite {
     var description: String? = null
     var cron: String? = null
 
+    @ManyToMany
+    val metrics: List<Metric> = ArrayList()
+
     @OneToMany
     @JoinColumn(name = "test_suite_id")
-    val suiteItems: List<SuiteItem> = ArrayList()
+    val urls: List<SuiteUrl> = ArrayList()
 }

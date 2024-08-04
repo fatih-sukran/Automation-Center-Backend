@@ -5,21 +5,14 @@ import lombok.Data
 import lombok.ToString
 
 @Data
-@Entity(name = "suite_item")
-class SuiteItem {
+@Entity(name = "suite_url")
+class SuiteUrl {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
 
     @Column(name = "url")
     var url: String? = null
-
-    @Column(name = "cron")
-    var cron: String? = null
-
-    @ManyToMany
-    @ToString.Exclude
-    val metrics: List<Metric> = ArrayList()
 
     @ManyToOne
     @ToString.Exclude

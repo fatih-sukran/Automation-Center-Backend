@@ -10,6 +10,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring", uses = MetricMapper.class)
 public interface TestSuiteMapper extends BaseMapper<TestSuite, TestSuiteDto> {
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "suiteItems", ignore = true)
+    @Mapping(target = "metrics", ignore = true)
+    @Mapping(target = "urls", ignore = true)
     TestSuite toEntity(AddTestSuiteDto addTestSuiteDto);
 }
