@@ -1,11 +1,9 @@
 package com.automation.center.lighthouse.model
 
 import jakarta.persistence.*
-import lombok.Data
 
-@Data
 @Entity(name = "metric")
-class Metric {
+class Metric() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
@@ -18,4 +16,8 @@ class Metric {
 
     @ManyToMany(mappedBy = "metrics")
     var suits: List<TestSuite> = ArrayList()
+
+    constructor(id: Long) : this() {
+        this.id = id
+    }
 }
