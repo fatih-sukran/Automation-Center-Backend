@@ -3,6 +3,7 @@ package com.automation.center.lighthouse.controller;
 import com.automation.center.lighthouse.dto.testSuite.AddTestSuiteDto;
 import com.automation.center.lighthouse.dto.testSuite.TestSuiteDto;
 import com.automation.center.lighthouse.mapper.TestSuiteMapper;
+import com.automation.center.lighthouse.service.MetricService;
 import com.automation.center.lighthouse.service.TestSuiteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,8 @@ import java.util.List;
 public class TestSuiteController {
     private final TestSuiteMapper mapper;
     private final TestSuiteService service;
+
+    private final MetricService metricService;
 
     @PostMapping
     public TestSuiteDto save(@RequestBody AddTestSuiteDto addDto) {
@@ -45,6 +48,16 @@ public class TestSuiteController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.deleteById(id);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{id}/metric/{metricId}")
+    public TestSuiteDto addMetric(@PathVariable Long id, @PathVariable Long metricId) {
+        var suite = service.findById(id);
+        var metric = metricService.findById(metricId);
+
+        suite.getMetrics().add(metric);
+        var savedData = service.save(suite);
+        return mapper.toDto(savedData);
     }
 }
 
