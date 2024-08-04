@@ -3,6 +3,7 @@ package com.automation.center.lighthouse.controller;
 import com.automation.center.lighthouse.dto.testSuite.AddTestSuiteDto;
 import com.automation.center.lighthouse.dto.testSuite.TestSuiteDto;
 import com.automation.center.lighthouse.mapper.TestSuiteMapper;
+import com.automation.center.lighthouse.model.Metric;
 import com.automation.center.lighthouse.service.MetricService;
 import com.automation.center.lighthouse.service.TestSuiteService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class TestSuiteController {
     @PostMapping
     public TestSuiteDto save(@RequestBody AddTestSuiteDto addDto) {
         var entity = mapper.toEntity(addDto);
+        addDto.getMetrics().forEach(metricId -> entity.getMetrics().add(new Metric(metricId)));
         var savedEntity = service.save(entity);
 
         return mapper.toDto(savedEntity);
