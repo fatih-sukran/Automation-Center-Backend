@@ -20,4 +20,8 @@ class Metric() {
     constructor(id: Long) : this() {
         this.id = id
     }
+    constructor(name: String, code: String) : this() {
+        this.name = name
+        this.code = code
+    }
 }

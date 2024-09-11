@@ -14,3 +14,6 @@ spring:
     url: 'jdbc:postgresql://localhost:5432/lighthouse'
     username: 'postgres'
     password: '12345'
+cors:
+  allowed-origins: >
+    - http://localhost:4200
