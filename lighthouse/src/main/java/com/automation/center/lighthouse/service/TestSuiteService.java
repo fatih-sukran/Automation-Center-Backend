@@ -11,4 +11,9 @@ public class TestSuiteService extends BaseCrud<TestSuite, Long, TestSuiteReposit
     public TestSuiteService(TestSuiteRepository repository) {
         super(repository);
     }
+
+    @Override
+    public TestSuite save(TestSuite testSuite) {
+        return super.save(testSuite);
+    }
 }

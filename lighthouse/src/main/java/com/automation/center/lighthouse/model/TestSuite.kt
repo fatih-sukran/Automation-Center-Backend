@@ -20,9 +20,13 @@ class TestSuite {
     var cron: String? = null
 
     @ManyToMany
+    @JoinTable(
+        name = "test_suite_metric",
+        joinColumns = [JoinColumn(name = "test_suite_id")],
+        inverseJoinColumns = [JoinColumn(name = "metric_id")]
+    )
     val metrics: List<Metric> = ArrayList()
 
     @OneToMany
-    @JoinColumn(name = "test_suite_id")
     val urls: List<SuiteUrl> = ArrayList()
 }

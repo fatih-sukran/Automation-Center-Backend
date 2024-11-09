@@ -14,9 +14,6 @@ class Metric() {
     @Column(name = "code")
     var code: String? = null
 
-    @ManyToMany(mappedBy = "metrics")
-    var suits: List<TestSuite> = ArrayList()
-
     constructor(id: Long) : this() {
         this.id = id
     }

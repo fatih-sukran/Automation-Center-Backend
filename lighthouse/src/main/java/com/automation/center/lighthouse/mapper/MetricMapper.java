@@ -10,6 +10,5 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface MetricMapper extends BaseMapper<Metric, MetricDto> {
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "suits", ignore = true)
     Metric toEntity(AddMetricDto metricDto);
 }

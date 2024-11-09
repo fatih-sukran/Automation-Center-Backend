@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/api/v1/test-suite", name = "Test Suite Controller")
 @RequiredArgsConstructor
