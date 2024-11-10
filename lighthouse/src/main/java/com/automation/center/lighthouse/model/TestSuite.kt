@@ -28,5 +28,6 @@ class TestSuite {
     val metrics: List<Metric> = ArrayList()
 
     @OneToMany
+    @JoinColumn(name = "test_suite_id")
     val urls: List<SuiteUrl> = ArrayList()
 }
