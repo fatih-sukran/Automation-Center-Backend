@@ -3,7 +3,6 @@ package com.automation.center.lighthouse.controller;
 
 import com.automation.center.lighthouse.dto.metric.AddMetricDto;
 import com.automation.center.lighthouse.dto.metric.MetricDto;
-import com.automation.center.lighthouse.mapper.MetricMapper;
 import com.automation.center.lighthouse.service.MetricService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,36 +15,29 @@ import java.util.List;
 @RequestMapping("/api/v1/metric")
 @RequiredArgsConstructor
 public class MetricController {
-    private final MetricMapper mapper;
     private final MetricService service;
 
     @PostMapping
     public ResponseEntity<MetricDto> save(@RequestBody AddMetricDto testClass) {
-        var metric = mapper.toEntity(testClass);
-        var savedMetric = service.save(metric);
-
-        return new ResponseEntity<>(mapper.toDto(savedMetric), HttpStatus.CREATED);
+        var savedMetric = service.save(testClass);
+        return new ResponseEntity<>(savedMetric, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<MetricDto> findById(@PathVariable Long id) {
         var metric = service.findById(id);
-        var metricDto = mapper.toDto(metric);
-
-        return ResponseEntity.ofNullable(metricDto);
+        return ResponseEntity.ofNullable(metric);
     }
 
     @GetMapping
     public ResponseEntity<List<MetricDto>> findAll() {
         var metrics = service.findAll();
-        var metricDtos = mapper.toDtos(metrics);
-
-        return ResponseEntity.ok(metricDtos);
+        return ResponseEntity.ok(metrics);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        service.deleteById(id);
+        service.delete(id);
         return ResponseEntity.ok().build();
     }
 }

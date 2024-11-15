@@ -4,7 +4,7 @@ import jakarta.persistence.*
 import lombok.Data
 
 @Data
-@Entity(name = "report_id")
+@Entity(name = "report_item")
 class ReportItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

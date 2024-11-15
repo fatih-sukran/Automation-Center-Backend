@@ -11,8 +11,8 @@ public interface MetricRepository extends JpaRepository<Metric, Long> {
     @Query(nativeQuery = true, value = """
             DELETE FROM metric
             WHERE id NOT IN (
-                SELECT metrics_id
-                FROM test_suite_metrics
+                SELECT metric_id
+                FROM test_suite_metric
             )
             """)
     void deleteAll();
