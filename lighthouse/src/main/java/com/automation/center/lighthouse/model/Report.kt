@@ -3,7 +3,7 @@ package com.automation.center.lighthouse.model
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
-@Entity
+@Entity(name = "report")
 class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
