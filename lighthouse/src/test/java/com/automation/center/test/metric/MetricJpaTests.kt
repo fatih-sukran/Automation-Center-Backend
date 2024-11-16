@@ -14,10 +14,11 @@ import org.springframework.test.context.jdbc.Sql
 @Sql("/sql/metric.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @SpringBootTest(classes = [LighthouseApplication::class])
 class MetricJpaTests {
-    private val dto1 = MetricDto(1L, "Metric 1", "code1")
-    private val dto2 = MetricDto(2L, "Metric 2", "code2")
-    private val dto4 = MetricDto(4L, "Metric 4", "code4")
-    private val addDto = AddMetricDto("Metric 4", "code4")
+    private val dto1 = MetricDto(21L, "Metric 21", "code21")
+    private val dto2 = MetricDto(22L, "Metric 22", "code22")
+    private val dto3 = MetricDto(23L, "Metric 23", "code23")
+    private val dto4 = MetricDto(1L, "New Metric", "new code")
+    private val addDto = AddMetricDto("New Metric", "new code")
 
     @Autowired
     private lateinit var service: MetricService
@@ -27,18 +28,15 @@ class MetricJpaTests {
         val allDto = service.findAll()
 
         assertThat(allDto.size).isEqualTo(3)
-        assertThat(allDto.first().name).isEqualTo(dto1.name)
-        assertThat(allDto.first().code).isEqualTo(dto1.code)
+        assertThat(allDto).isEqualTo(listOf(dto1, dto2, dto3))
     }
 
     @Test
     fun findById() {
-        val firstDto = service.findAll().first()
-        val foundDto = service.findById(firstDto.id)
+        val foundDto = service.findById(dto1.id)
 
         assertThat(foundDto).isNotNull()
-        assertThat(foundDto.name).isEqualTo(dto1.name)
-        assertThat(foundDto.code).isEqualTo(dto1.code)
+        assertThat(foundDto).isEqualTo(dto1)
     }
 
     @Test
@@ -49,34 +47,30 @@ class MetricJpaTests {
         val foundDto = service.findById(savedDto.id)
         assertThat(foundDto).isNotNull()
         assertThat(foundDto).isEqualTo(savedDto)
-        assertThat(foundDto.name).isEqualTo(dto4.name)
-        assertThat(foundDto.code).isEqualTo(dto4.code)
+        assertThat(foundDto).isEqualTo(dto4)
     }
 
     @Test
     fun deleteById() {
-        val deleteDto = service.findAll().first()
-        service.delete(deleteDto.id)
-
-        assertThatThrownBy { service.findById(deleteDto.id) }
-            .hasMessage("No value present")
-
-        val allDto = service.findAll()
-        assertThat(allDto).hasSize(2)
-        assertThat(allDto.first().name).isEqualTo(dto2.name)
-        assertThat(allDto.first().code).isEqualTo(dto2.code)
-    }
-
-    @Test
-    fun deleteByDto() {
-        service.delete(dto2)
+        service.delete(dto2.id)
 
         assertThatThrownBy { service.findById(dto2.id) }
             .hasMessage("No value present")
 
         val allDto = service.findAll()
         assertThat(allDto).hasSize(2)
-        assertThat(allDto.first().name).isEqualTo(dto1.name)
-        assertThat(allDto.first().code).isEqualTo(dto1.code)
+        assertThat(allDto).isEqualTo(listOf(dto1, dto3))
+    }
+
+    @Test
+    fun deleteByDto() {
+        service.delete(dto3)
+
+        assertThatThrownBy { service.findById(dto3.id) }
+            .hasMessage("No value present")
+
+        val allDto = service.findAll()
+        assertThat(allDto).hasSize(2)
+        assertThat(allDto).isEqualTo(listOf(dto1, dto2))
     }
 }

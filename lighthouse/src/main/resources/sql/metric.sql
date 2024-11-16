@@ -2,6 +2,6 @@
 DELETE FROM metric;
 
 -- Test verilerini ekle
-INSERT INTO metric (name, code) VALUES ('Metric 1', 'code1');
-INSERT INTO metric (name, code) VALUES ('Metric 2', 'code2');
-INSERT INTO metric (name, code) VALUES ('Metric 3', 'code3');
+INSERT INTO metric (id, name, code) VALUES (21, 'Metric 21', 'code21');
+INSERT INTO metric (id, name, code) VALUES (22, 'Metric 22', 'code22');
+INSERT INTO metric (id, name, code) VALUES (23, 'Metric 23', 'code23');
