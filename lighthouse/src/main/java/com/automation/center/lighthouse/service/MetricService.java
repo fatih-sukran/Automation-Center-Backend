@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,9 +23,9 @@ public class MetricService {
         return mapper.toDto(savedEntity);
     }
 
-    public MetricDto findById(Long id) {
-        var entity = repository.findById(id).orElseThrow();
-        return mapper.toDto(entity);
+    public Optional<MetricDto> findById(Long id) {
+        var entity = repository.findById(id);
+        return entity.map(mapper::toDto);
     }
 
     public List<MetricDto> findAll() {
@@ -39,9 +40,5 @@ public class MetricService {
 
     public void delete(Long id) {
         repository.deleteById(id);
-    }
-
-    public void deleteAll() {
-        repository.deleteAll();
     }
 }

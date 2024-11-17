@@ -10,6 +10,8 @@ class ReportItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
     var url: String? = null
+
+    @Column(name = "\"value\"")
     var value: String? = null
 
     @ManyToOne

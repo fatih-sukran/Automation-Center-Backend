@@ -26,7 +26,7 @@ public class MetricController {
     @GetMapping("/{id}")
     public ResponseEntity<MetricDto> findById(@PathVariable Long id) {
         var metric = service.findById(id);
-        return ResponseEntity.ofNullable(metric);
+        return ResponseEntity.of(metric);
     }
 
     @GetMapping
