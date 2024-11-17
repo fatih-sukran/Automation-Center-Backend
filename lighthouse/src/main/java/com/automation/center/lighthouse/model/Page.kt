@@ -5,17 +5,16 @@ import lombok.Data
 import lombok.ToString
 
 @Data
-@Entity(name = "suite_url")
-class SuiteUrl {
+@Entity(name = "page")
+class Page {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
-
-    @Column(name = "url")
+    var name: String? = null
     var url: String? = null
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
-    @JoinColumn(name = "test_suite_id")
-    var testSuite: TestSuite? = null
+    @JoinColumn(name = "suite_id")
+    var suite: Suite? = null
 }

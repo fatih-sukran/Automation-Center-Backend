@@ -10,8 +10,8 @@ import lombok.ToString
 @Setter
 @ToString
 @RequiredArgsConstructor
-@Entity(name = "test_suite")
-class TestSuite {
+@Entity(name = "suite")
+class Suite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
@@ -19,15 +19,14 @@ class TestSuite {
     var description: String? = null
     var cron: String? = null
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-        name = "test_suite_metric",
-        joinColumns = [JoinColumn(name = "test_suite_id")],
+        name = "suite_metric",
+        joinColumns = [JoinColumn(name = "suite_id")],
         inverseJoinColumns = [JoinColumn(name = "metric_id")]
     )
     val metrics: List<Metric> = ArrayList()
 
-    @OneToMany
-    @JoinColumn(name = "test_suite_id")
-    val urls: List<SuiteUrl> = ArrayList()
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "suite", cascade = [CascadeType.ALL], orphanRemoval = true)
+    val urls: List<Page> = ArrayList()
 }

@@ -13,7 +13,7 @@ class Report {
 
     @ManyToOne
     @JoinColumn(name = "test_suite_id")
-    var testSuite: TestSuite? = null
+    var suite: Suite? = null
 
     @OneToMany
     @JoinColumn(name = "report_id")
