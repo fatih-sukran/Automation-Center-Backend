@@ -1,8 +1,10 @@
 package com.automation.center.lighthouse.service;
 
 import com.automation.center.lighthouse.dto.metric.MetricDto;
+import com.automation.center.lighthouse.dto.page.AddPageDto;
+import com.automation.center.lighthouse.dto.page.PageDto;
 import com.automation.center.lighthouse.dto.testSuite.AddTestSuiteDto;
-import com.automation.center.lighthouse.dto.testSuite.TestSuiteDto;
+import com.automation.center.lighthouse.dto.testSuite.SuiteDto;
 import com.automation.center.lighthouse.mapper.MetricMapper;
 import com.automation.center.lighthouse.mapper.SuiteMapper;
 import com.automation.center.lighthouse.repository.SuiteRepository;
@@ -19,19 +21,20 @@ public class SuiteService {
 
     private final SuiteMapper mapper;
     private final MetricMapper metricMapper;
+    private final PageService pageService;
     private final SuiteRepository repository;
 
-    public List<TestSuiteDto> findAll() {
+    public List<SuiteDto> findAll() {
         var entities = repository.findAll();
         return mapper.toDtos(entities);
     }
 
-    public Optional<TestSuiteDto> findById(Long id) {
+    public Optional<SuiteDto> findById(Long id) {
         var entity = repository.findById(id);
         return entity.map(mapper::toDto);
     }
 
-    public TestSuiteDto save(AddTestSuiteDto addDto) {
+    public SuiteDto save(AddTestSuiteDto addDto) {
         var entity = mapper.toEntity(addDto);
         var savedEntity = repository.save(entity);
         return mapper.toDto(savedEntity);
@@ -41,7 +44,7 @@ public class SuiteService {
         repository.deleteById(id);
     }
 
-    public void delete(TestSuiteDto dto) {
+    public void delete(SuiteDto dto) {
         var entity = mapper.toEntity(dto);
         repository.delete(entity);
     }
@@ -63,5 +66,13 @@ public class SuiteService {
             suite.getMetrics().removeIf(metric -> Objects.equals(metric.getId(), metricDto.getId()));
             repository.save(suite);
         }
+    }
+
+    public void addPageToSuite(AddPageDto pageDto) {
+        pageService.save(pageDto);
+    }
+
+    public void removePageFromSuite(PageDto pageDto) {
+        pageService.delete(pageDto);
     }
 }
