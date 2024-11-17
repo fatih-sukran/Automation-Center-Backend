@@ -3,11 +3,11 @@ package com.automation.center.lighthouse.dto.testSuite
 import com.automation.center.lighthouse.dto.metric.MetricDto
 import com.automation.center.lighthouse.dto.page.PageDto
 
-data class TestSuiteDto(
+data class SuiteDto(
     var id: Long? = null,
     var name: String? = null,
     var description: String? = null,
     var cron: String? = null,
     val metrics: List<MetricDto> = ArrayList(),
-    val urls: List<PageDto> = ArrayList()
+    val pages: List<PageDto> = ArrayList()
 )

@@ -28,5 +28,5 @@ class Suite {
     val metrics: List<Metric> = ArrayList()
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "suite", cascade = [CascadeType.ALL], orphanRemoval = true)
-    val urls: List<Page> = ArrayList()
+    val pages: List<Page> = ArrayList()
 }

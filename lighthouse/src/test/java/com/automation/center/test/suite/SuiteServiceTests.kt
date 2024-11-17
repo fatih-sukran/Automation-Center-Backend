@@ -2,8 +2,10 @@ package com.automation.center.test.suite
 
 import com.automation.center.lighthouse.LighthouseApplication
 import com.automation.center.lighthouse.dto.metric.MetricDto
+import com.automation.center.lighthouse.dto.page.AddPageDto
+import com.automation.center.lighthouse.dto.page.PageDto
 import com.automation.center.lighthouse.dto.testSuite.AddTestSuiteDto
-import com.automation.center.lighthouse.dto.testSuite.TestSuiteDto
+import com.automation.center.lighthouse.dto.testSuite.SuiteDto
 import com.automation.center.lighthouse.service.SuiteService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -16,23 +18,43 @@ import org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METH
 import kotlin.jvm.optionals.getOrNull
 
 @Sql(
-    scripts = ["/sql/metric/insert.sql", "/sql/suite/insert.sql", "/sql/suite_metric/insert.sql"],
+    scripts = ["/sql/metric/insert.sql", "/sql/suite/insert.sql", "/sql/suite_metric/insert.sql", "/sql/page/insert.sql"],
     executionPhase = BEFORE_TEST_METHOD
 )
 @Sql(
-    scripts = ["/sql/suite_metric/delete.sql", "/sql/suite/delete.sql", "/sql/metric/delete.sql"],
+    scripts = ["/sql/page/delete.sql", "/sql/suite_metric/delete.sql", "/sql/suite/delete.sql", "/sql/metric/delete.sql"],
     executionPhase = AFTER_TEST_METHOD
 )
 @SpringBootTest(classes = [LighthouseApplication::class])
 class SuiteServiceTests {
+    private val pageDto1 = PageDto(21L, 21L, "url21", "Page 21")
+    private val pageDto2 = PageDto(22L, 21L, "url22", "Page 22")
+    private val pageDto3 = PageDto(23L, 21L, "url23", "Page 23")
+    private val addPageDto = AddPageDto(suiteId = 22, url = "new url", name = "new name")
+
     private val metricDto1 = MetricDto(21L, "Metric 21", "code21")
     private val metricDto2 = MetricDto(22L, "Metric 22", "code22")
     private val metricDto3 = MetricDto(23L, "Metric 23", "code23")
-    private val dto1 =
-        TestSuiteDto(21L, "Suite 21", "description 21", "2 1 0 * * ?", listOf(metricDto1, metricDto2, metricDto3))
-    private val dto2 = TestSuiteDto(22L, "Suite 22", "description 22", "2 2 0 * * ?", listOf(metricDto1, metricDto2))
-    private val dto3 = TestSuiteDto(23L, "Suite 23", "description 23", "2 3 0 * * ?", listOf(metricDto1))
-    private val dto4 = TestSuiteDto(1L, "New Suite", "new description", "* * * * * ?")
+
+    private val dto1 = SuiteDto(
+        id = 21L,
+        name = "Suite 21",
+        description = "description 21",
+        cron = "2 1 0 * * ?",
+        metrics = listOf(metricDto1, metricDto2, metricDto3),
+        pages = listOf(pageDto1, pageDto2, pageDto3)
+    )
+    private val dto2 = SuiteDto(
+        id = 22L,
+        name = "Suite 22",
+        description = "description 22",
+        cron = "2 2 0 * * ?",
+        metrics = listOf(metricDto1, metricDto2)
+    )
+    private val dto3 = SuiteDto(
+        id = 23L, name = "Suite 23", description = "description 23", cron = "2 3 0 * * ?", metrics = listOf(metricDto1)
+    )
+    private val dto4 = SuiteDto(id = 1L, "New Suite", description = "new description", cron = "* * * * * ?")
     private val addDto = AddTestSuiteDto("New Suite", "new description", "* * * * * ?")
 
     @Autowired
@@ -107,5 +129,26 @@ class SuiteServiceTests {
         assertThat(foundDto?.metrics).isEqualTo(listOf(metricDto2, metricDto3))
     }
 
-    //todo: addPage and removePage tests
+    @Test
+    fun addPage() {
+        service.addPageToSuite(addPageDto)
+        val foundDto = service.findById(dto2.id).getOrNull()
+
+        assertThat(foundDto).isNotNull()
+        assertThat(foundDto?.pages).hasSize(1)
+        val page = foundDto?.pages?.first()
+        assertThat(page?.suiteId).isEqualTo(dto2.id)
+        assertThat(page?.url).isEqualTo(addPageDto.url)
+        assertThat(page?.name).isEqualTo(addPageDto.name)
+    }
+
+    @Test
+    fun removePage() {
+        service.removePageFromSuite(pageDto1)
+        val foundDto = service.findById(dto1.id).getOrNull()
+
+        assertThat(foundDto).isNotNull()
+        assertThat(foundDto?.pages).hasSize(2)
+        assertThat(foundDto?.pages).isEqualTo(listOf(pageDto2, pageDto3))
+    }
 }
