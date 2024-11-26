@@ -1,14 +1,10 @@
 package com.automation.center.lighthouse.model
 
 import jakarta.persistence.*
-import lombok.Getter
+import lombok.Data
 import lombok.RequiredArgsConstructor
-import lombok.Setter
-import lombok.ToString
 
-@Getter
-@Setter
-@ToString
+@Data
 @RequiredArgsConstructor
 @Entity(name = "suite")
 class Suite {
@@ -19,14 +15,17 @@ class Suite {
     var description: String? = null
     var cron: String? = null
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "suite", cascade = [CascadeType.ALL], orphanRemoval = true)
+    var reports: List<Report> = ArrayList()
+
+    @OneToMany(mappedBy = "suite", cascade = [CascadeType.ALL], orphanRemoval = true)
+    var pages: List<Page> = ArrayList()
+
+    @ManyToMany
     @JoinTable(
         name = "suite_metric",
         joinColumns = [JoinColumn(name = "suite_id")],
         inverseJoinColumns = [JoinColumn(name = "metric_id")]
     )
-    val metrics: List<Metric> = ArrayList()
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "suite", cascade = [CascadeType.ALL], orphanRemoval = true)
-    val pages: List<Page> = ArrayList()
+    var metrics: List<Metric> = ArrayList()
 }

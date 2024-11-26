@@ -7,18 +7,16 @@ import com.automation.center.lighthouse.model.Report;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", uses = {SuiteMapper.class, ReportItemMapper.class})
+@Mapper(componentModel = "spring", uses = {ResultMapper.class, PageMapper.class})
 public interface ReportMapper extends BaseMapper<Report, ReportDto> {
-    @Mapping(target = "reportItems", ignore = true)
-    @Mapping(target = "suite", ignore = true)
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "results", ignore = true)
+    @Mapping(target = "suite.id", source = "suiteId")
     Report toEntity(AddReportDto dto);
 
-    @Mapping(target = "suite.id", source = "suiteId")
     @Override
     Report toEntity(ReportDto reportDto);
 
-    @Mapping(target = "suiteId", source = "suite.id")
     @Override
     ReportDto toDto(Report report);
 }

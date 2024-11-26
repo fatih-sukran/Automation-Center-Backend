@@ -1,16 +1,12 @@
 package com.automation.center.lighthouse.dto.report
 
-import com.automation.center.lighthouse.dto.reportItem.ReportItemDto
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.automation.center.lighthouse.dto.result.ResultDto
+import com.automation.center.lighthouse.dto.suite.SuiteDto
 import java.time.LocalDateTime
 
 data class ReportDto(
     var id: Long? = null,
     var date: LocalDateTime? = null,
-    @JsonProperty("suite_id")
-    var suiteId: Long? = null,
-    @JsonProperty("suite_name")
-    var suiteName: String? = null,
-    @JsonProperty("results")
-    val reportItems: List<ReportItemDto> = ArrayList()
+    var suite: SuiteDto? = null,
+    val results: List<ResultDto> = ArrayList()
 )

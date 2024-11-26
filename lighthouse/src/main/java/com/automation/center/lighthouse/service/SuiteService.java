@@ -3,18 +3,20 @@ package com.automation.center.lighthouse.service;
 import com.automation.center.lighthouse.dto.metric.MetricDto;
 import com.automation.center.lighthouse.dto.page.AddPageDto;
 import com.automation.center.lighthouse.dto.page.PageDto;
-import com.automation.center.lighthouse.dto.testSuite.AddTestSuiteDto;
-import com.automation.center.lighthouse.dto.testSuite.SuiteDto;
+import com.automation.center.lighthouse.dto.suite.AddTestSuiteDto;
+import com.automation.center.lighthouse.dto.suite.SuiteDto;
 import com.automation.center.lighthouse.mapper.MetricMapper;
 import com.automation.center.lighthouse.mapper.SuiteMapper;
 import com.automation.center.lighthouse.repository.SuiteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class SuiteService {
@@ -68,8 +70,8 @@ public class SuiteService {
         }
     }
 
-    public void addPageToSuite(AddPageDto pageDto) {
-        pageService.save(pageDto);
+    public PageDto addPageToSuite(AddPageDto pageDto) {
+        return pageService.save(pageDto);
     }
 
     public void removePageFromSuite(PageDto pageDto) {

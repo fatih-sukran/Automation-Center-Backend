@@ -9,13 +9,11 @@ class Report {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
     var date: LocalDateTime? = null
-    var suiteName: String? = null
 
     @ManyToOne
-    @JoinColumn(name = "test_suite_id")
+    @JoinColumn(name = "suite_id")
     var suite: Suite? = null
 
-    @OneToMany
-    @JoinColumn(name = "report_id")
-    val reportItems: List<ReportItem> = ArrayList()
+    @OneToMany(mappedBy = "report", cascade = [CascadeType.ALL], orphanRemoval = true)
+    var results: List<Result> = ArrayList()
 }
