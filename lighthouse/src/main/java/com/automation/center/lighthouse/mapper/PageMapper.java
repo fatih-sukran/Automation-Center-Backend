@@ -9,10 +9,12 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring", uses = SuiteMapper.class)
 public interface PageMapper extends BaseMapper<Page, PageDto> {
+    @Mapping(target = "results", ignore = true)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "suite.id", source = "suiteId")
     Page toEntity(AddPageDto addMetricUrDto);
 
+    @Mapping(target = "results", ignore = true)
     @Mapping(target = "suite.id", source = "suiteId")
     @Override
     Page toEntity(PageDto pageDto);

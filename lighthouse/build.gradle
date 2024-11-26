@@ -69,6 +69,14 @@ dependencies {
 
 }
 
+compileJava {
+    options.compilerArgs += [
+            '-Amapstruct.defaultComponentModel=spring',
+            '-Amapstruct.unmappedTargetPolicy=IGNORE',
+            '-Amapstruct.unmappedSourcePolicy=IGNORE'
+    ]
+}
+
 tasks.named('test') {
     useJUnitPlatform()
 }

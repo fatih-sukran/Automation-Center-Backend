@@ -2,7 +2,6 @@ package com.automation.center.lighthouse.model
 
 import jakarta.persistence.*
 import lombok.Data
-import lombok.ToString
 
 @Data
 @Entity(name = "page")
@@ -13,8 +12,10 @@ class Page {
     var name: String? = null
     var url: String? = null
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @ToString.Exclude
+    @OneToMany(mappedBy = "page", cascade = [CascadeType.ALL], orphanRemoval = true)
+    var results: List<Result> = ArrayList()
+
+    @ManyToOne
     @JoinColumn(name = "suite_id")
     var suite: Suite? = null
 }
