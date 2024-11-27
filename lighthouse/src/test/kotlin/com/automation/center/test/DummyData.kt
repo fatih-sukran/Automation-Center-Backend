@@ -8,7 +8,7 @@ import com.automation.center.lighthouse.dto.report.AddReportDto
 import com.automation.center.lighthouse.dto.report.ReportDto
 import com.automation.center.lighthouse.dto.result.AddResultDto
 import com.automation.center.lighthouse.dto.result.ResultDto
-import com.automation.center.lighthouse.dto.suite.AddTestSuiteDto
+import com.automation.center.lighthouse.dto.suite.AddSuiteDto
 import com.automation.center.lighthouse.dto.suite.SuiteDto
 import java.time.LocalDateTime
 
@@ -53,7 +53,7 @@ class DummyData {
             metrics = listOf(MetricData.dto1)
         )
         val dto4 = SuiteDto(id = 1L, "New Suite", description = "new description", cron = "* * * * * ?")
-        val addDto = AddTestSuiteDto("New Suite", "new description", "* * * * * ?")
+        val addDto = AddSuiteDto("New Suite", "new description", "* * * * * ?")
     }
 
     object ResultData {

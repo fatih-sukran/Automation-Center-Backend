@@ -77,7 +77,7 @@ class SuiteServiceTests {
 
     @Test
     fun addMetric() {
-        service.addMetricToSuite(dummyData.dto3.id, metricDummyData.dto3)
+        service.addMetricToSuite(dummyData.dto3.id, metricDummyData.dto3.id)
         val foundDto = service.findById(dummyData.dto3.id).getOrNull()
 
         assertThat(foundDto).isNotNull()
@@ -86,7 +86,7 @@ class SuiteServiceTests {
 
     @Test
     fun removeMetric() {
-        service.removeMetricFromSuite(dummyData.dto1.id, metricDummyData.dto1)
+        service.removeMetricFromSuite(dummyData.dto1.id, metricDummyData.dto1.id)
         val foundDto = service.findById(dummyData.dto1.id).getOrNull()
 
         assertThat(foundDto).isNotNull()
