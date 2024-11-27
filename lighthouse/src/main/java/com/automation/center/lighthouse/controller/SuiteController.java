@@ -1,12 +1,12 @@
 package com.automation.center.lighthouse.controller;
 
 import com.automation.center.lighthouse.dto.BaseResponseWithData;
-import com.automation.center.lighthouse.dto.suite.AddTestSuiteDto;
+import com.automation.center.lighthouse.dto.suite.AddSuiteDto;
 import com.automation.center.lighthouse.dto.suite.SuiteDto;
-import com.automation.center.lighthouse.mapper.SuiteMapper;
 import com.automation.center.lighthouse.service.MetricService;
 import com.automation.center.lighthouse.service.SuiteService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,57 +17,54 @@ import java.util.List;
 @RequestMapping(value = "/api/v1/test-suite", name = "Test Suite Controller")
 @RequiredArgsConstructor
 public class SuiteController {
-    private final SuiteMapper mapper;
     private final SuiteService service;
-
     private final MetricService metricService;
 
     @PostMapping
-    public ResponseEntity<BaseResponseWithData<SuiteDto>> save(@RequestBody AddTestSuiteDto addDto) {
-//        var entity = mapper.toEntity(addDto);
-//        addDto.getMetrics().forEach(metricId -> entity.getMetrics().add(new Metric(metricId)));
-//        var savedEntity = service.save(entity);
-//
-//        return mapper.toDto(savedEntity);
+    public ResponseEntity<BaseResponseWithData<SuiteDto>> save(@RequestBody AddSuiteDto addDto) {
+        var savedDto = service.save(addDto);
+        var response = new BaseResponseWithData<>(savedDto);
 
-        return null;
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SuiteDto> findById(@PathVariable Long id) {
-//        var entity = service.findById(id);
-//        var dto = mapper.toDto(entity);
-//
-//        return ResponseEntity.ofNullable(dto);
+    public ResponseEntity<BaseResponseWithData<SuiteDto>> findById(@PathVariable Long id) {
+        var suiteDtoOptional = service.findById(id);
+        if (suiteDtoOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
 
-        return null;
+        var response = new BaseResponseWithData<>(suiteDtoOptional.get());
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<SuiteDto>> findAll() {
-//        var entities = service.findAll();
-//        var dtos = mapper.toDtos(entities);
-//
-//        return ResponseEntity.ok(dtos);
-        return null;
+    public ResponseEntity<BaseResponseWithData<List<SuiteDto>>> findAll() {
+        var suiteDtos = service.findAll();
+        var response = new BaseResponseWithData<>(suiteDtos);
+
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-//        service.deleteById(id);
-//        return ResponseEntity.ok().build();
-        return null;
+        service.delete(id);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/{id}/metric/{metricId}")
-    public SuiteDto addMetric(@PathVariable Long id, @PathVariable Long metricId) {
-//        var suite = service.findById(id);
-//        var metric = metricService.findById(metricId);
-//
-////        suite.getMetrics().add(metric); todo: açılacak
-//        var savedData = service.save(suite);
-//        return mapper.toDto(savedData);
-        return null;
+    public ResponseEntity<Void> addMetric(@PathVariable Long id, @PathVariable Long metricId) {
+        service.addMetricToSuite(id, metricId);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}/metric/{metricId}")
+    public ResponseEntity<Void> removeMetric(@PathVariable Long id, @PathVariable Long metricId) {
+        service.removeMetricFromSuite(id, metricId);
+
+        return ResponseEntity.ok().build();
     }
 }
 

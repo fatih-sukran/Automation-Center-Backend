@@ -1,7 +1,7 @@
 package com.automation.center.lighthouse.mapper;
 
 import com.automation.center.lighthouse.base.BaseMapper;
-import com.automation.center.lighthouse.dto.suite.AddTestSuiteDto;
+import com.automation.center.lighthouse.dto.suite.AddSuiteDto;
 import com.automation.center.lighthouse.dto.suite.SuiteDto;
 import com.automation.center.lighthouse.model.Suite;
 import org.mapstruct.Mapper;
@@ -15,7 +15,7 @@ public interface SuiteMapper extends BaseMapper<Suite, SuiteDto> {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "metrics", ignore = true)
         //todo: fix it
-    Suite toEntity(AddTestSuiteDto addTestSuiteDto);
+    Suite toEntity(AddSuiteDto addTestSuiteDto);
 
     @Override
     Suite toEntity(SuiteDto suiteDto);
