@@ -59,7 +59,7 @@ public class ProgrammaticallyScheduledTasks {
             });
             log.info("#{} Suite Task Finished", suiteDto.getId());
         };
-        var schedule = taskScheduler.schedule(runnable, new CronTrigger("0 * * * * *"));
+        var schedule = taskScheduler.schedule(runnable, new CronTrigger("0 " + suiteDto.getCron()));
         scheduledTasks.put(suiteDto.getId(), schedule);
     }
 
