@@ -68,12 +68,12 @@ class DummyData {
         var dto1 = ReportDto(
             id = 21L,
             date = LocalDateTime.parse("2020-01-01T00:00:00"),
-            suite = SuiteData.dto1,
+            suiteId = SuiteData.dto1.id,
             results = listOf(ResultData.dto1, ResultData.dto2, ResultData.dto3)
         )
-        var dto2 = ReportDto(id = 22L, date = LocalDateTime.parse("2020-01-02T00:00:00"), suite = SuiteData.dto1)
-        var dto3 = ReportDto(id = 23L, date = LocalDateTime.parse("2020-01-03T00:00:00"), suite = SuiteData.dto1)
-        var dto4 = ReportDto(id = 1L, date = LocalDateTime.parse("2020-01-04T00:00:00"), suite = SuiteData.dto1)
+        var dto2 = ReportDto(id = 22L, date = LocalDateTime.parse("2020-01-02T00:00:00"), suiteId = SuiteData.dto1.id)
+        var dto3 = ReportDto(id = 23L, date = LocalDateTime.parse("2020-01-03T00:00:00"), suiteId = SuiteData.dto1.id)
+        var dto4 = ReportDto(id = 1L, date = LocalDateTime.parse("2020-01-04T00:00:00"), suiteId = SuiteData.dto1.id)
         var addDto = AddReportDto(date = LocalDateTime.parse("2020-01-04T00:00:00"), suiteId = SuiteData.dto1.id)
     }
 }

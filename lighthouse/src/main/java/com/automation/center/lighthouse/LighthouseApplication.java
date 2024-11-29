@@ -58,8 +58,8 @@ public class LighthouseApplication {
 
             // Save All Suites
             var suits = List.of(
-                    new AddSuiteDto("HangiKredi", "HangiKredi Linkleri", "* * * * *"),
-                    new AddSuiteDto("Enuygun", "Enuygun Linkleri", "* * * * *"));
+                    new AddSuiteDto("HangiKredi", "HangiKredi Linkleri", "*/3 * * * *"),
+                    new AddSuiteDto("Enuygun", "Enuygun Linkleri", "*/5 * * * *"));
             var suiteDtos = suits.stream().map(suiteService::save).toList();
 
             // Add All Metrics To Suites
