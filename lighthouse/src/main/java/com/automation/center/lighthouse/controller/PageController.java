@@ -1,5 +1,6 @@
 package com.automation.center.lighthouse.controller;
 
+import com.automation.center.lighthouse.base.ProgrammaticallyScheduledTasks;
 import com.automation.center.lighthouse.dto.BaseResponseWithData;
 import com.automation.center.lighthouse.dto.page.AddPageDto;
 import com.automation.center.lighthouse.dto.page.PageDto;
@@ -16,11 +17,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PageController {
     private final PageService service;
+    private final ProgrammaticallyScheduledTasks scheduledTasks;
 
     @PostMapping(name = "Add Metric Url")
     public ResponseEntity<BaseResponseWithData<PageDto>> save(@RequestBody AddPageDto addPageDto) {
         var savedPage = service.save(addPageDto);
         var response = new BaseResponseWithData<>(savedPage);
+        scheduledTasks.scheduleAllSuites();
+
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
@@ -45,6 +49,8 @@ public class PageController {
     @DeleteMapping(value = "/{id}", name = "Delete Metric Url")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.deleteById(id);
+        scheduledTasks.cancelAllTasks();
+
         return ResponseEntity.ok().build();
     }
 }

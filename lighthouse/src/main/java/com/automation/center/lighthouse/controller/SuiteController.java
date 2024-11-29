@@ -1,9 +1,9 @@
 package com.automation.center.lighthouse.controller;
 
+import com.automation.center.lighthouse.base.ProgrammaticallyScheduledTasks;
 import com.automation.center.lighthouse.dto.BaseResponseWithData;
 import com.automation.center.lighthouse.dto.suite.AddSuiteDto;
 import com.automation.center.lighthouse.dto.suite.SuiteDto;
-import com.automation.center.lighthouse.service.MetricService;
 import com.automation.center.lighthouse.service.SuiteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,12 +18,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SuiteController {
     private final SuiteService service;
-    private final MetricService metricService;
+    private final ProgrammaticallyScheduledTasks scheduledTasks;
 
     @PostMapping
     public ResponseEntity<BaseResponseWithData<SuiteDto>> save(@RequestBody AddSuiteDto addDto) {
         var savedDto = service.save(addDto);
         var response = new BaseResponseWithData<>(savedDto);
+        scheduledTasks.scheduleAllSuites();
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -56,6 +57,7 @@ public class SuiteController {
     @PostMapping("/{id}/metric/{metricId}")
     public ResponseEntity<Void> addMetric(@PathVariable Long id, @PathVariable Long metricId) {
         service.addMetricToSuite(id, metricId);
+        scheduledTasks.scheduleAllSuites();
 
         return ResponseEntity.ok().build();
     }
@@ -63,6 +65,7 @@ public class SuiteController {
     @DeleteMapping("/{id}/metric/{metricId}")
     public ResponseEntity<Void> removeMetric(@PathVariable Long id, @PathVariable Long metricId) {
         service.removeMetricFromSuite(id, metricId);
+        scheduledTasks.scheduleAllSuites();
 
         return ResponseEntity.ok().build();
     }
