@@ -1,4 +1,4 @@
-package com.automation.center.test.page;
+package com.automation.center.test.page
 
 import com.automation.center.lighthouse.LighthouseApplication
 import com.automation.center.lighthouse.service.PageService
@@ -8,12 +8,10 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.jdbc.Sql
-import org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD
 import kotlin.jvm.optionals.getOrNull
 
-@Sql("/sql/insert.sql", executionPhase = BEFORE_TEST_METHOD)
-@Sql("/sql/delete.sql", executionPhase = AFTER_TEST_METHOD)
+@Sql("/sql/delete.sql", "/sql/insert.sql", executionPhase = BEFORE_TEST_METHOD)
 @SpringBootTest(classes = [LighthouseApplication::class])
 class PageServiceTests {
     @Autowired
