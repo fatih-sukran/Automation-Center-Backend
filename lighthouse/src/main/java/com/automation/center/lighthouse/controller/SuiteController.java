@@ -14,7 +14,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = "/api/v1/test-suite", name = "Test Suite Controller")
+@RequestMapping(value = "/api/v1/suite", name = "Test Suite Controller")
 @RequiredArgsConstructor
 public class SuiteController {
     private final SuiteService service;
