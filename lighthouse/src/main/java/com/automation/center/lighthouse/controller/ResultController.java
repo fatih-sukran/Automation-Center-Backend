@@ -13,7 +13,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/v1/report-item")
+@RequestMapping("/api/v1/result")
 @RequiredArgsConstructor
 public class ResultController {
     private final ResultService service;
