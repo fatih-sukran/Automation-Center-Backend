@@ -52,6 +52,11 @@ dependencies {
     // JetBrains annotations
     implementation 'org.jetbrains:annotations:24.1.0'
 
+    // jenkins java client api
+    // https://mvnrepository.com/artifact/com.offbytwo.jenkins/jenkins-client
+    implementation 'com.offbytwo.jenkins:jenkins-client:0.3.8'
+
+
     // db dependencies
     implementation 'org.postgresql:postgresql:42.7.2'
     testImplementation 'com.h2database:h2'

@@ -1,5 +1,6 @@
 package com.automation.center.lighthouse;
 
+import com.automation.center.lighthouse.base.JenkinsUtil;
 import com.automation.center.lighthouse.base.ProgrammaticallyScheduledTasks;
 import com.automation.center.lighthouse.dto.metric.AddMetricDto;
 import com.automation.center.lighthouse.dto.page.AddPageDto;
@@ -38,10 +39,24 @@ public class LighthouseApplication {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(@NotNull CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("*");
+                registry.addMapping("/**");
             }
         };
     }
+
+    @Bean
+    CommandLineRunner init(JenkinsUtil jenkinsUtil) {
+        return args -> {
+            var jobs = jenkinsUtil.getAllViews();
+            System.out.println("Views: ");
+            jobs.forEach(v -> {
+                System.out.println(v.getName() + " - " + v.getUrl() + " - " + v.getJobs().size() + " jobs");
+                v.getJobs().forEach(j -> System.out.println("\t" + j.getName() + " - " + j.getUrl()));
+                v.getJobs().getFirst();
+            });
+        };
+    }
+
 
     @Bean
     CommandLineRunner initScheduledTasks(SuiteService suiteService, PageService pageService, MetricService metricService, ProgrammaticallyScheduledTasks programmaticallyScheduledTasks) {
@@ -59,7 +74,7 @@ public class LighthouseApplication {
             // Save All Suites
             var suits = List.of(
                     new AddSuiteDto("HangiKredi", "HangiKredi Linkleri", "*/3 * * * *"),
-                    new AddSuiteDto("Enuygun", "Enuygun Linkleri", "*/5 * * * *"));
+                    new AddSuiteDto("Enuygun", "Enuygun Linkleri", "*/2 * * * *"));
             var suiteDtos = suits.stream().map(suiteService::save).toList();
 
             // Add All Metrics To Suites
