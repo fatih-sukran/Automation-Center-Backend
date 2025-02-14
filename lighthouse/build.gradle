@@ -82,6 +82,8 @@ compileJava {
     ]
 }
 
+test.onlyIf { !project.hasProperty('noTest') }
+
 tasks.named('test') {
     useJUnitPlatform()
 }

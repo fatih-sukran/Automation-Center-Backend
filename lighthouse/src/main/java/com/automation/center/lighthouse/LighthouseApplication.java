@@ -1,6 +1,5 @@
 package com.automation.center.lighthouse;
 
-import com.automation.center.lighthouse.base.JenkinsUtil;
 import com.automation.center.lighthouse.base.ProgrammaticallyScheduledTasks;
 import com.automation.center.lighthouse.dto.metric.AddMetricDto;
 import com.automation.center.lighthouse.dto.page.AddPageDto;
@@ -22,7 +21,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
-
 @EnableScheduling
 @EnableJpaRepositories
 @ComponentScan("com.automation.center.lighthouse")
@@ -43,20 +41,6 @@ public class LighthouseApplication {
             }
         };
     }
-
-    @Bean
-    CommandLineRunner init(JenkinsUtil jenkinsUtil) {
-        return args -> {
-            var jobs = jenkinsUtil.getAllViews();
-            System.out.println("Views: ");
-            jobs.forEach(v -> {
-                System.out.println(v.getName() + " - " + v.getUrl() + " - " + v.getJobs().size() + " jobs");
-                v.getJobs().forEach(j -> System.out.println("\t" + j.getName() + " - " + j.getUrl()));
-                v.getJobs().getFirst();
-            });
-        };
-    }
-
 
     @Bean
     CommandLineRunner initScheduledTasks(SuiteService suiteService, PageService pageService, MetricService metricService, ProgrammaticallyScheduledTasks programmaticallyScheduledTasks) {
